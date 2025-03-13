@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="departments_list_view" model="ir.ui.view">
+        <field name="name">departments.list</field>
+        <field name="model">departments</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="doctor_ids"/>
+                <field name="staff_ids"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="departments_form_view" model="ir.ui.view">
+        <field name="name">departments.form</field>
+        <field name="model">departments</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_doctor_list_wizard" string="Doctor List" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page name="Doctors">
+                                <field name="doctor_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="designation"/>
+                                        <field name="contact_no"/>
+                                    </list>
+                                </field>
+                        </page>
+                        <page name="Staff">
+                                <field name="staff_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="designation"/>
+                                        <field name="contact_no"/>
+                                    </list>
+                                </field>
+                        </page>
+                        <page name="Users">
+                                <field name="user_ids"/>
+                        </page>
+                        <page name="Users1">
+                                <field name="user1_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="departments_action" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">departments</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="departments_list_view"/>
+    </record>
+
+    <menuitem id="departments_id" name="Departments" parent="hms_root" action="hms.departments_action" sequence="1"/>
+</odoo>

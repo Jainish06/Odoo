@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="doctor_list_wizard_wizard" model="ir.ui.view">
+        <field name="name">doctor.list.wizard.wizard</field>
+        <field name="model">doctor.list.wizard</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="doctor_ids"/>
+            </list>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="patient_details_list_view" model="ir.ui.view">
+        <field name="name">patient.details.list</field>
+        <field name="model">patient.details</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="patient_code" readonly="1"/>
+                <field name="name"/>
+                <field name="blood_group"/>
+                <field name="age"/>
+                <field name="date_of_birth"/>
+                <field name="contact_no"/>
+                <field name="email"/>
+                <field name="main_complain"/>
+                <field name="doctor_id"/>
+                <field name="insurance_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="patient_details_form_view" model="ir.ui.view">
+        <field name="name">patient.details.form</field>
+        <field name="model">patient.details</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <header>
+                    <button name="action_open_appointment_form" string="Appointments" type="object" class="btn-primary"/>
+                    <button name="action_calculate_age" string="Calculate Age" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="patient_code" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="blood_group"/>
+                            <field name="age"/>
+                            <field name="date_of_birth"/>
+                            <field name="contact_no"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="main_complain"/>
+                            <field name="doctor_id"/>
+                            <field name="insurance_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="patient_details_action" model="ir.actions.act_window">
+        <field name="name">Patient Details</field>
+        <field name="res_model">patient.details</field>
+        <field name="view_mode">list,form</field>
+        <field name='view_id' ref='patient_details_list_view'/>
+    </record>
+
+    <menuitem id="patient_details_id" name='Patient Details' parent='hms.hms_root' action='hms.patient_details_action' sequence="4"/>
+</odoo>

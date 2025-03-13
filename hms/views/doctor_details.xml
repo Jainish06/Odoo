@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="doctor_details_list_view" model="ir.ui.view">
+        <field name="name">doctor.details.list</field>
+        <field name="model">doctor.details</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="designation"/>
+                <field name="contact_no"/>
+                <field name="department_id"/>
+                <field name="patient_ids"/>
+                <field name="appointment_ids"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="doctor_details_form_view" model="ir.ui.view">
+        <field name="name">doctor.details.form</field>
+        <field name="model">doctor.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="designation"/>
+                    </group>
+                    <group>
+                        <field name="contact_no"/>
+                        <field name="department_id"/>
+                    </group>
+                    <notebook>
+                        <page name="Patients">
+                            <field name="patient_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="main_complain"/>
+                                    <field name="contact_no"/>
+                                    <field name="insurance_id"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="main_complain"/>
+                                            <field name="contact_no"/>
+                                            <field name="insurance_id"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="Appointments">
+                            <field name="appointment_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="main_complain"/>
+                                    <field name="contact_no"/>
+                                    <field name="app_date_time"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="doctor_details_action" model="ir.actions.act_window">
+        <field name="name">Doctor Details</field>
+        <field name="res_model">doctor.details</field>
+        <field name="view_mode">list,form</field>
+        <field name='view_id' ref='doctor_details_list_view'/>
+    </record>
+
+    <menuitem id="hms_root" name="Hospital Management System"/>
+    <menuitem id="doctor_details_id" name='Doctor Details' parent='hms_root' action='hms.doctor_details_action' sequence="2"/>
+</odoo>
