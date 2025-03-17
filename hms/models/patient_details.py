@@ -1,4 +1,9 @@
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields, models, api
+from odoo.addons.test_new_api.models.test_new_api import Selection
 from odoo.exceptions import UserError
 import math
 
@@ -10,6 +15,8 @@ BLOOD_GROUP = [('A+', 'A+ve'),
                 ('B-', 'B-ve'),
                 ('O-', 'O-ve'),
                 ('AB-', 'AB-ve')]
+AGE_CATEGORY = [('child', 'Child'), ('minor', 'Minor'), ('adult', 'Adult'), ('senior citizen', 'Senior Citizen')]
+GUARDIAN_CATEGORY = [('parent', 'Parent'), ('sibling', 'Sibling'), ('relative', 'Relative'), ('friend', 'Friend'),('other', 'Other')]
 
 
 class PatientDetails(models.Model):
@@ -23,6 +30,9 @@ class PatientDetails(models.Model):
     blood_group = fields.Selection(BLOOD_GROUP, string="Blood Group", required=True)
     date_of_birth = fields.Date(string="Date of Birth", required=True)
     age = fields.Char(string="Age")
+    age_category = fields.Selection(AGE_CATEGORY, string="Age Category", required=True)
+    guardian_type = fields.Selection(GUARDIAN_CATEGORY, string="Guardian Category", required=True )
+    guardian_id = fields.Many2one('res.partner', 'Guardian Id')
     main_complain = fields.Char('Main Complain', required=True)
     doctor_id = fields.Many2one('doctor.details', 'Doctor assigned')
     insurance_id = fields.Many2one('insurance.details', 'Insurance used')
@@ -51,6 +61,22 @@ class PatientDetails(models.Model):
             if record.date_of_birth >= fields.Date.today():
                 raise UserError("Invalid date.")
 
+    @api.onchange('date_of_birth')
+    def onchange_method(self):
+        if self.date_of_birth:
+            current_date = fields.Date.today()
+            age_delta = relativedelta(current_date, self.date_of_birth)
+            self.age = age_delta.years
+            if age_delta.years <= 10:
+                self.age_category = 'child'
+            elif 10 < age_delta.years < 18:
+                self.age_category = 'minor'
+            elif 18 <= age_delta.years < 60:
+                self.age_category = 'adult'
+            else:
+                self.age_category = 'senior citizen'
+
+
     def action_open_appointment_form(self):
         view_id = self.env.ref('hms.appointment_details_form_view').id
         print("view_id", view_id)
@@ -61,15 +87,24 @@ class PatientDetails(models.Model):
             'view_id': view_id,
             'type': 'ir.actions.act_window',
             'target': 'current',
+            'context': {'default_patient_id': self.id,}
         }
 
     def action_calculate_age(self):
         current_date = fields.Date.today()
-        age = str(current_date - self.date_of_birth)
-        age = age.split(',')
-        age = age[0]
-        if age<'30':
-            self.age = age
-        elif age>='30':
-            self.age = str(math.floor((int(age)%30)))
+        # age = str(current_date - self.date_of_birth)
+        # age = age.split(',')
+        # age = age[0]
+        # if age<'30':
+        #     self.age = age
+        # elif age>='30':
+        #     self.age = str(math.floor((int(age)%30)))
+        age_delta = relativedelta(current_date, self.date_of_birth)
+        self.age = f"{age_delta.years} year(s) {age_delta.months} month(s) {age_delta.days} month(s)"
+
+    def _count_no_of_patients(self):
+        # This method will be called by a cron job
+        patient_ids = self.env['patient.details'].search([('age', '>', '40')])
+        print(len(patient_ids))
+
 

@@ -9,8 +9,11 @@
                 <field name="patient_code" readonly="1"/>
                 <field name="name"/>
                 <field name="blood_group"/>
-                <field name="age"/>
                 <field name="date_of_birth"/>
+                <field name="age"/>
+                <field name="age_category"/>
+                <field name="guardian_type" invisible="age_category != 'minor' and age_category != 'child'"/>
+                <field name="guardian_id" invisible="age_category != 'minor' and age_category != 'child'"/>
                 <field name="contact_no"/>
                 <field name="email"/>
                 <field name="main_complain"/>
@@ -39,8 +42,11 @@
                         <group>
                             <field name="name"/>
                             <field name="blood_group"/>
-                            <field name="age"/>
                             <field name="date_of_birth"/>
+                            <field name="age"/>
+                            <field name="age_category"/>
+                            <field name="guardian_type" invisible="age_category != 'minor' and age_category != 'child'"/>
+                            <field name="guardian_id" invisible="age_category != 'minor' and age_category != 'child'"/>
                             <field name="contact_no"/>
                             <field name="email"/>
                         </group>
