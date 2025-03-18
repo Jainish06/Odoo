@@ -47,5 +47,5 @@
         <field name='view_id' ref='insurance_details_list_view'/>
     </record>
 
-    <menuitem id="insurance_details_id" name='Insurance Details' parent='hms.hms_root' action='hms.insurance_details_action' sequence="5"/>
+    <menuitem id="insurance_details_id" name='Insurance Details' parent='hms.hms_root' action='hms.insurance_details_action' sequence="6"/>
 </odoo>

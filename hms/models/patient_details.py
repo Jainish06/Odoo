@@ -1,7 +1,5 @@
 from datetime import datetime
-
 from dateutil.relativedelta import relativedelta
-
 from odoo import fields, models, api
 from odoo.addons.test_new_api.models.test_new_api import Selection
 from odoo.exceptions import UserError
@@ -31,11 +29,25 @@ class PatientDetails(models.Model):
     date_of_birth = fields.Date(string="Date of Birth", required=True)
     age = fields.Char(string="Age")
     age_category = fields.Selection(AGE_CATEGORY, string="Age Category", required=True)
-    guardian_type = fields.Selection(GUARDIAN_CATEGORY, string="Guardian Category", required=True )
+    guardian_type = fields.Selection(GUARDIAN_CATEGORY, string="Guardian Category")
     guardian_id = fields.Many2one('res.partner', 'Guardian Id')
     main_complain = fields.Char('Main Complain', required=True)
     doctor_id = fields.Many2one('doctor.details', 'Doctor assigned')
+    appointment_ids = fields.One2many('appointment.details', 'patient_id', 'Appointments')
     insurance_id = fields.Many2one('insurance.details', 'Insurance used')
+    weekly_visit = fields.Boolean('Weekly visit?')
+    appointment_count = fields.Integer(compute="_compute_appointment_count", string="Appointment Count", store=True)
+    prescription_count = fields.Integer(compute='_compute_prescription_count', string='Prescription Count')
+
+    @api.depends('appointment_ids.patient_id')
+    def _compute_appointment_count(self):
+        for patient in self:
+            patient.appointment_count = self.env['appointment.details'].search_count([('patient_id', '=', patient.id)])
+
+    @api.depends()
+    def _compute_prescription_count(self):
+        for patient in self:
+            patient.prescription_count = self.env['prescription.details'].search_count([('patient_id', '=', patient.id)])
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -92,13 +104,6 @@ class PatientDetails(models.Model):
 
     def action_calculate_age(self):
         current_date = fields.Date.today()
-        # age = str(current_date - self.date_of_birth)
-        # age = age.split(',')
-        # age = age[0]
-        # if age<'30':
-        #     self.age = age
-        # elif age>='30':
-        #     self.age = str(math.floor((int(age)%30)))
         age_delta = relativedelta(current_date, self.date_of_birth)
         self.age = f"{age_delta.years} year(s) {age_delta.months} month(s) {age_delta.days} month(s)"
 
@@ -106,5 +111,67 @@ class PatientDetails(models.Model):
         # This method will be called by a cron job
         patient_ids = self.env['patient.details'].search([('age', '>', '40')])
         print(len(patient_ids))
+
+    def action_open_appointments(self):
+        # action = self.env['ir.actions.actions']._for_xml_id('bista_hms.hms_appointment_form_action')
+        # if self.appointment_count > 1:
+        #     action['domain'] = [('patient_id', '=', self.id)]
+        # elif self.appointment_count == 1:
+        #     form_view = [(self.env.ref('bista_hms.hms_appointment_form_view').id, 'form')]
+        #     if 'views' in action:
+        #         action['views'] = form_view + [(state, view) for state, view in action['views'] if view != 'form']
+        #     else:
+        #         action['views'] = form_view
+        # else:
+        #     action = {'type': 'ir.actions.act_window_close'}
+        #
+        # action['context'] = {'default_patient_id': self.id}
+        # return action
+
+        form_view_id = self.env.ref('hms.appointment_details_form_view').id
+        list_view_id = self.env.ref('hms.appointment_details_list_view').id
+
+        res = {
+            'name': 'Appointments',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'appointment.details',
+            'target': 'current',
+            'view_id': form_view_id,
+            'context': {'default_patient_id': self.id}
+        }
+
+        if self.appointment_count >= 1:
+            res['view_mode'] = 'list,form'
+            res['views'] = [(list_view_id, 'list'), (form_view_id, 'form')]
+            res['domain'] = [('patient_id', '=', self.id)]
+            res['view_id'] = False
+
+        return res
+
+    def action_open_prescriptions(self):
+        form_view_id = self.env.ref('hms.prescription_details_form_view').id
+        list_view_id = self.env.ref('hms.prescription_details_list_view').id
+
+        res = {
+            'name': 'Prescriptions',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'prescription.details',
+            'target': 'current',
+            'view_id': form_view_id,
+            'context': {'default_patient_id': self.id}
+        }
+
+        if self.prescription_count >= 1:
+            res['view_mode'] = 'list,form'
+            res['views'] = [(list_view_id, 'list'), (form_view_id, 'form')]
+            res['domain'] = [('patient_id', '=', self.id)]
+            res['view_id'] = False
+
+        return res
+
+
+
 
 

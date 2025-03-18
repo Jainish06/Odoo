@@ -10,8 +10,11 @@
                 <field name="patient_id"/>
                 <field name="main_complain"/>
                 <field name="contact_no"/>
+                <field name="age"/>
                 <field name="app_date_time"/>
+                <field name="appointment_creation_time"/>
                 <field name="doctor_appointment_id"/>
+                <field name="state"/>
             </list>
         </field>
     </record>
@@ -35,24 +38,26 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="patient_id"/>
-                        <field name="main_complain"/>
-                        <field name="contact_no"/>
-                        <field name="age"/>
-                        <field name="age_category"/>
-                        <field name="guardian_type" invisible="age_category != 'minor' and age_category != 'child'"/>
-                        <field name="guardian_id" invisible="age_category != 'minor' and age_category != 'child'"/>
-                        <field name="doctor_appointment_id"/>
-                    </group>
-                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="main_complain"/>
+                            <field name="contact_no"/>
+                        </group>
+                        <group>
+                            <field name="age"/>
+                            <field name="age_category"/>
+                            <field name="guardian_type" required="age_category in ['minor', 'child']"/>
+                            <field name="guardian_id" required="age_category in ['minor', 'child']"/>
+                            <field name="doctor_appointment_id"/>
+                        </group>
                         <group>
                             <field name="app_date_time"/>
                             <field name="consultation_start" invisible="state != 'consultation_begin' and state != 'done'"/>
                             <field name="consultation_end" invisible=" state != 'consultation_begin' and state != 'done'"/>
                             <field name="total_consultation_time" invisible=" state != 'consultation_begin' and state != 'done'"/>
                             <field name="appointment_creation_time"/>
+                            <field name="service_product_id"/>
                         </group>
-                        <field name="service_product_id"/>
                     </group>
                 </sheet>
             </form>
@@ -66,5 +71,5 @@
         <field name='view_id' ref='appointment_details_list_view'/>
     </record>
 
-    <menuitem id="appointment_details_id" name='Appointment Details' parent='hms.hms_root' action='hms.appointment_details_action' sequence="6"/>
+    <menuitem id="appointment_details_id" name='Appointment Details' parent='hms.hms_root' action='hms.appointment_details_action' sequence="5"/>
 </odoo>

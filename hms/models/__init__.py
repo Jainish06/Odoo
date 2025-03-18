@@ -5,3 +5,5 @@ from . import departments
 from . import staff_details
 from . import insurance_details
 from . import appointment_details
+from . import prescription_details
+from . import prescription_line

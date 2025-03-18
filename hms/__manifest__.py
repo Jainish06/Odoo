@@ -18,7 +18,9 @@
         'data/ir_patient_sequence.xml',
         'data/ir_appointment_sequence.xml',
         'data/ir_doctor_sequence.xml',
-        'data/ir_cron.xml'
+        'data/ir_cron.xml',
+        'views/prescription_details.xml',
+        'views/prescription_line.xml'
         ],
     'application' : True
 }

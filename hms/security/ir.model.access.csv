@@ -6,3 +6,5 @@ hms_staff_id,staff.details,model_staff_details,,1,1,1,1
 hms_insurance_id,insurance.details,model_insurance_details,,1,1,1,1
 hms_appointment_id,appointment.details,model_appointment_details,,1,1,1,1
 hms_wizard_id,doctor.list.wizard,model_doctor_list_wizard,,1,1,1,1
+hms_prescription_id,prescription.details,model_prescription_details,,1,1,1,1
+hms_prescription_line_id,prescription.line,model_prescription_line,,1,1,1,1

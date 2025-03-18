@@ -12,13 +12,12 @@
                 <field name="date_of_birth"/>
                 <field name="age"/>
                 <field name="age_category"/>
-                <field name="guardian_type" invisible="age_category != 'minor' and age_category != 'child'"/>
-                <field name="guardian_id" invisible="age_category != 'minor' and age_category != 'child'"/>
                 <field name="contact_no"/>
                 <field name="email"/>
                 <field name="main_complain"/>
                 <field name="doctor_id"/>
                 <field name="insurance_id"/>
+                <field name="weekly_visit"/>
             </list>
         </field>
     </record>
@@ -33,6 +32,16 @@
                     <button name="action_calculate_age" string="Calculate Age" type="object" class="btn-primary"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_appointments" type="object"
+                                icon="fa-calendar-check-o">
+                            <field name="appointment_count" string="Appointment" widget="statinfo"/>
+                        </button>
+                        <button name="action_open_prescriptions" type="object"
+                                icon="fa-calendar-check-o">
+                            <field name="prescription_count" string="Prescriptions" widget="statinfo"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="patient_code" readonly="1"/>
@@ -45,8 +54,8 @@
                             <field name="date_of_birth"/>
                             <field name="age"/>
                             <field name="age_category"/>
-                            <field name="guardian_type" invisible="age_category != 'minor' and age_category != 'child'"/>
-                            <field name="guardian_id" invisible="age_category != 'minor' and age_category != 'child'"/>
+                            <field name="guardian_type" required="age_category in ['minor', 'child']"/>
+                            <field name="guardian_id" required="age_category in ['minor', 'child']"/>
                             <field name="contact_no"/>
                             <field name="email"/>
                         </group>
@@ -54,7 +63,15 @@
                             <field name="main_complain"/>
                             <field name="doctor_id"/>
                             <field name="insurance_id"/>
+                            <field name="weekly_visit"/>
                         </group>
+                        <notebook>
+                            <page name="Appointments">
+                                <list>
+                                    <field name="appointment_ids"/>
+                                </list>
+                            </page>
+                        </notebook>
                     </group>
                 </sheet>
             </form>
