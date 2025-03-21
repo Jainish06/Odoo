@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="subject_subject_list_view" model="ir.ui.view">
+        <field name="name">subject.subject.list</field>
+        <field name="model">subject.subject</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="res_subject_action" model="ir.actions.act_window">
+        <field name="name">Subject Details</field>
+        <field name="res_model">subject.subject</field>
+        <field name="view_mode">list</field>
+        <field name='view_id' ref='subject_subject_list_view'/>
+    </record>
+
+    <menuitem id="subject_id" name='Subject' parent='student_management.sms_root' action='student_management.res_subject_action' sequence="2"/>
+
+</odoo>

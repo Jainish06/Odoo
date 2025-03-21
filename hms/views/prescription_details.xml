@@ -9,6 +9,7 @@
                 <field name="patient_id"/>
                 <field name="date"/>
                 <field name="state"/>
+                <field name="total_amount" sum="Total amount"/>
             </list>
         </field>
     </record>
@@ -28,7 +29,7 @@
                         <group>
                             <field name="patient_id"/>
                             <field name="date"/>
-                            <field name="total_amount" sum="Total amount" widget="monetary" optional="show"/>
+<!--                            <field name="total_amount" sum="Total amount" widget="monetary" optional="show"/>-->
                         </group>
                     </group>
                     <notebook>

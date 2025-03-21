@@ -105,7 +105,6 @@ class AppointmentDetails(models.Model):
     def _auto_cancelling_overdue_app(self):
         now = datetime.now()
         cutoff_time = now - timedelta(hours=24)
-        print(cutoff_time.strftime("%Y-%m-%d %H:%M:%S"))
         overdue_appointments = self.env['appointment.details'].search([('appointment_creation_time', '<=', cutoff_time.strftime("%Y-%m-%d %H:%M:%S")), ('state', '=', 'draft')])
         if overdue_appointments:
             print(overdue_appointments.state)

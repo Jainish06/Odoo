@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="res_student_list_view" model="ir.ui.view">
+        <field name="name">res.student.list</field>
+        <field name="model">res.student</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="registration_id"/>
+                <field name="name"/>
+                <field name="registration_date"/>
+                <field name="birth_date"/>
+                <field name="age"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="standard"/>
+                <field name="is_blocked" readonly="1"/>
+                <field name="is_expired" readonly="1"/>
+            </list>
+        </field>
+  </record>
+
+  <record id="res_student_form_view" model="ir.ui.view">
+      <field name="name">res.student.form</field>
+      <field name="model">res.student</field>
+      <field name="arch" type="xml">
+          <form>
+              <header>
+                  <button name="action_block" string="Block" type="object" class="btn-primary" invisible="is_blocked == 1"/>
+                  <button name="action_unblock" string="Unblock" type="object" class="btn-primary" invisible="is_blocked == 0"/>
+              </header>
+              <sheet>
+                  <div class="oe_title">
+                      <h1>
+                          <field name="registration_id" readonly="1"/>
+                      </h1>
+                  </div>
+                  <group>
+                      <group>
+                          <field name="name"/>
+                          <field name="registration_date"/>
+                          <field name="birth_date"/>
+                          <field name="age"/>
+                          <field name="guardian_name"/>
+                          <field name="guardian_phone"/>
+                      </group>
+                      <group>
+                          <field name="phone"/>
+                          <field name="email"/>
+                          <field name="standard"/>
+                          <field name="tuition_fee_structure_id" domain="[('standard', '=', standard)]"/>
+                          <field name="is_blocked" readonly="1"/>
+                          <field name="is_expired" readonly="1"/>
+                      </group>
+                  </group>
+                  <notebook>
+                      <page name="Previous Year Marks">
+                          <list editable="bottom">
+                              <field name="previous_year_marks_ids"/>
+                          </list>
+                      </page>
+                  </notebook>
+              </sheet>
+            </form>
+        </field>
+  </record>
+
+
+
+  <record id="res_student_action" model="ir.actions.act_window">
+    <field name="name">Student Details</field>
+    <field name="res_model">res.student</field>
+    <field name="view_mode">list,form</field>
+    <field name='view_id' ref='res_student_list_view'/>
+  </record>
+
+  <menuitem id="sms_root" name="Student Management System"/>
+  <menuitem id="res_student_id" name='Student Details' parent='student_management.sms_root' action='student_management.res_student_action' sequence="1"/>
+</odoo>

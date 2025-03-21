@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="previous_year_marks_list_view" model="ir.ui.view">
+        <field name="name">previous.year.marks.list</field>
+        <field name="model">previous.year.marks</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="student_id"/>
+                <field name="subject"/>
+                <field name="total_marks"/>
+                <field name="obtained_marks_exam"/>
+                <field name="obtained_marks_viva"/>
+                <field name="total_obtained_marks"/>
+            </list>
+        </field>
+  </record>
+
+  <record id="previous_year_marks_form_view" model="ir.ui.view">
+        <field name="name">previous.year.marks.form</field>
+        <field name="model">previous.year.marks</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                  <group>
+                    <group>
+                        <field name="student_id"/>
+                        <field name="subject"/>
+                        <field name="total_marks"/>
+                  </group>
+                  <group>
+                      <field name="obtained_marks_exam"/>
+                      <field name="obtained_marks_viva"/>
+                      <field name="total_obtained_marks"/>
+                  </group>
+                </group>
+              </sheet>
+            </form>
+        </field>
+  </record>
+
+
+  <record id="previous_year_marks_action" model="ir.actions.act_window">
+    <field name="name">Marks Details</field>
+    <field name="res_model">previous.year.marks</field>
+    <field name="view_mode">list,form</field>
+    <field name='view_id' ref='previous_year_marks_list_view'/>
+  </record>
+
+</odoo>

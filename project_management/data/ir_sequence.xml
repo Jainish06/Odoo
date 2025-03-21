@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="sequence_project" model="ir.sequence">
+        <field name="name">project.details</field>
+        <field name="code">project.details</field>
+        <field name="prefix">PR-</field>
+        <field name="padding">4</field>
+    </record>
+    <record id="sequence_task" model="ir.sequence">
+        <field name="name">task.details</field>
+        <field name="code">task.details</field>
+        <field name="prefix">T-</field>
+        <field name="padding">4</field>
+    </record>
+</odoo>
