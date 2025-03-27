@@ -29,6 +29,14 @@ class ResStudent(models.Model):
     is_blocked = fields.Boolean(string='Is Blocked?')
     is_expired = fields.Boolean(string='Is Expired?')
 
+    @api.depends('registration_id')
+    def _compute_display_name(self):
+        for rec in self:
+            if rec.registration_id != 'New':
+                rec.display_name = f"[{rec.registration_id}] {rec.name}"
+            else:
+                rec.display_name = 'New'
+
     '''Unique ID generation'''
     @api.model_create_multi
     def create(self, vals_list):
@@ -59,13 +67,6 @@ class ResStudent(models.Model):
                 age_delta = relativedelta(current_date, rec.birth_date)
                 rec.age = f"{age_delta.years} Year(s), {age_delta.months} Month(s)"
 
-    # @api.onchange('standard')
-    # def onchange_standard(self):
-    #     for rec in self:
-    #         record = self.env['tuition.fee.structure'].search([('standard', '=', rec.standard)]
-    #         for rec in records:
-    #             rec.tuition_fee_structure_id = rec.
-
     '''Block button action to make is_block file true'''
     def action_block(self):
         self.is_blocked = True
@@ -74,16 +75,11 @@ class ResStudent(models.Model):
     def action_unblock(self):
         self.is_blocked = False
 
-    # @api.constrains('is_blocked')
-    # def restrict_user_input(self):
-
     '''Schedule action for checking student registration'''
     def _check_student_registration(self):
         # This method will be called by a cron job
-
         today = fields.Datetime.today()
         date = today - timedelta(days=30)
-        print(date)
         expired_records = self.env['res.student'].search([('registration_date', '<', date), ('is_blocked', '=', False)])
         for rec in expired_records:
             rec.is_expired = True

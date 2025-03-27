@@ -13,7 +13,7 @@
     'version': '1.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','product'],
+    'depends': ['base','product','sale'],
 
     # always loaded
     'data': [
@@ -21,6 +21,8 @@
         'views/res_student.xml',
         'views/subject_subject.xml',
         'views/tuition_fee_structure.xml',
+        'views/sale_order.xml',
+        'views/res_partner.xml',
         'data/ir_sequence.xml',
         'data/ir_cron.xml'
     ],
