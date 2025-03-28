@@ -7,3 +7,4 @@ from . import insurance_details
 from . import appointment_details
 from . import prescription_details
 from . import prescription_line
+from . import res_partner

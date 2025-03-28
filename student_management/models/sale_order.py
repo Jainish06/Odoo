@@ -27,7 +27,7 @@ class SaleOrderLine(models.Model):
             rec.discount = rec.discount + rec.order_id.partner_id.extra_discount
         return res
 
-    @api.depends('product_template_id.list_price')
+    @api.depends('product_template_id')
     def _compute_store_original_unit_price(self):
         for rec in self:
-            rec.original_unit_price = rec.product_template_id.list_price
+            rec.original_unit_price = rec.product_id.lst_price

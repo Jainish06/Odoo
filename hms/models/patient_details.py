@@ -1,7 +1,9 @@
+import typing
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import fields, models, api
 from odoo.addons.test_new_api.models.test_new_api import Selection
+from odoo.api import ValuesType
 from odoo.exceptions import UserError
 import math
 
@@ -38,6 +40,7 @@ class PatientDetails(models.Model):
     weekly_visit = fields.Boolean('Weekly visit?')
     appointment_count = fields.Integer(compute="_compute_appointment_count", string="Appointment Count", store=True)
     prescription_count = fields.Integer(compute='_compute_prescription_count', string='Prescription Count')
+    partner_id = fields.Many2one('res.partner', 'Patient Partner')
 
     @api.depends('appointment_ids.patient_id')
     def _compute_appointment_count(self):
@@ -52,7 +55,10 @@ class PatientDetails(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for val in vals_list:
+            vals = {'name': val['name'], 'mobile': val['contact_no'], 'email': val['email']}
+            rec = self.env['res.partner'].create(vals)
             val.update({'patient_code' : self.env['ir.sequence'].next_by_code('patient.details') })
+            val.update({'partner_id': rec.id})
         res = super(PatientDetails, self).create(vals_list)
         return res
 
@@ -170,6 +176,24 @@ class PatientDetails(models.Model):
             res['view_id'] = False
 
         return res
+
+    @api.model
+    def write(self, vals):
+        updated_record = {}
+        for rec in self:
+            if rec.partner_id:
+                if 'name' in vals:
+                    updated_record.update({'name': vals['name']})
+                if 'contact_no' in vals:
+                    updated_record.update({'mobile': vals['contact_no']})
+                if 'email' in vals:
+                    updated_record.update({'email': vals['email']})
+                rec.partner_id.write(updated_record)
+
+        res = super(PatientDetails, self).write(vals)
+        return res
+
+
 
 
 
