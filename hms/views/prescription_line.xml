@@ -10,6 +10,7 @@
                 <field name="qty"/>
                 <field name="price_unit"/>
                 <field name="total_price"/>
+                <field name="delivered_qty"/>
             </list>
         </field>
     </record>
@@ -26,6 +27,7 @@
                             <field name="qty"/>
                             <field name="price_unit"/>
                             <field name="total_price"/>
+                            <field name="delivered_qty"/>
                         </group>
                     </group>
                 </sheet>

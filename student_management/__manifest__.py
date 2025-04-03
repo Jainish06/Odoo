@@ -21,7 +21,6 @@
         'views/res_student.xml',
         'views/subject_subject.xml',
         'views/tuition_fee_structure.xml',
-        'views/sale_order.xml',
         'views/res_partner.xml',
         'data/ir_sequence.xml',
         'data/ir_cron.xml'

@@ -1,10 +1,13 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-hms_doctor_id,doctor.details,model_doctor_details,,1,1,1,1
-hms_patient_id,patient.details,model_patient_details,,1,1,1,1
-hms_department_id,departments,model_departments,,1,1,1,1
+hms_doctor_id_admin,doctor.details.admin,model_doctor_details,hms.group_doctor_admin,1,1,1,1
+hms_doctor_id_user,doctor.details.user,model_doctor_details,hms.group_doctor_user,1,0,0,0
+hms_patient_id_user,patient.details.user,model_patient_details,hms.group_patient_user,1,1,1,1
+hms_department_id_admin,departments.admin,model_departments,hms.group_department_admin,1,1,1,1
 hms_staff_id,staff.details,model_staff_details,,1,1,1,1
 hms_insurance_id,insurance.details,model_insurance_details,,1,1,1,1
 hms_appointment_id,appointment.details,model_appointment_details,,1,1,1,1
 hms_wizard_id,doctor.list.wizard,model_doctor_list_wizard,,1,1,1,1
-hms_prescription_id,prescription.details,model_prescription_details,,1,1,1,1
+hms_prescription_id_user,prescription.details.user,model_prescription_details,hms.group_prescription_user,1,1,1,0
+hms_prescription_id_user_readonly,prescription.details.user.readonly,model_prescription_details,hms.group_prescription_user_readonly,1,0,0,0
+hms_prescription_id_admin,prescription.details.admin,model_prescription_details,hms.group_prescription_admin,1,1,1,1
 hms_prescription_line_id,prescription.line,model_prescription_line,,1,1,1,1

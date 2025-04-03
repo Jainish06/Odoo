@@ -25,20 +25,36 @@
                     <button name="action_cancel" string="Cancel" type="object" class="btn-primary" invisible="state != 'draft' and state != 'confirm'"/>
                     <button name="action_create_invoice" string="Create Invoice" type="object" class="btn-primary"
                             invisible="state != 'confirm'"/>
+                    <button name="action_create_delivery" string="Create Delivery" type="object" class="btn-primary"
+                            invisible="state != 'confirm'"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_delivery_form" type="object"
+                                icon="fa-solid fa-truck" string="Delivery" invisible="state != 'confirm'">
+                            <field name="delivery_count" string="Delivery" widget="statinfo"/>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="patient_id"/>
                             <field name="date"/>
                             <field name="total_amount" sum="Total amount" widget="monetary" optional="show"/>
+                            <field name="invoice_ids" />
+                            <field name="lead_reference" />
                         </group>
                     </group>
                     <notebook>
                         <page name="Prescription Lines">
-                            <list>
-                                <field name="prescription_line_ids"/>
-                            </list>
+                            <field name="prescription_line_ids">
+                                <list>
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                    <field name="price_unit"/>
+                                    <field name="total_price"/>
+                                    <field name="delivered_qty"/>
+                                </list>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>

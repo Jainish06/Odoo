@@ -5,8 +5,9 @@
     'version': '1.1',
     'category': '',
     'summary': 'HMS',
-    'depends': ['base', 'product'],
+    'depends': ['base', 'product', 'account', 'sale'],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/doctor_details.xml',
         'views/patient_details.xml',
@@ -20,7 +21,9 @@
         'data/ir_doctor_sequence.xml',
         'data/ir_cron.xml',
         'views/prescription_details.xml',
-        'views/prescription_line.xml'
+        'views/prescription_line.xml',
+        'views/stock_picking.xml',
+        'views/sale_order.xml'
         ],
     'application' : True
 }

@@ -6,6 +6,12 @@ class SaleOrder(models.Model):
     project_id = fields.Many2one('project.details', 'Projects')
     total_amt = fields.Char(string='Total')
     discount_amt = fields.Float(string='Discount')
+    lead_reference = fields.Char(string="Lead Reference")
+
+    def _prepare_invoice(self):
+        vals = super(SaleOrder, self)._prepare_invoice()
+        vals['lead_referral'] = self.lead_reference
+        return vals
 
     @api.depends('order_line.price_subtotal', 'currency_id', 'company_id', 'discount_amt')
     def _compute_amounts(self):
