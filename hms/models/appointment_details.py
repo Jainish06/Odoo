@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from odoo import fields, models, api
 from odoo.exceptions import UserError, ValidationError
 from odoo.fields import Datetime
-from odoo.service.server import start
 
 
 class AppointmentDetails(models.Model):
@@ -135,5 +134,31 @@ class AppointmentDetails(models.Model):
             next_appointment = datetime.now() + timedelta(days=7)
             self.create([{'patient_id' : record.id, 'app_date_time' : next_appointment, 'main_complain' : record.main_complain, 'age' : record.age, 'age_category' : record.age_category, 'appointment_creation_time' : datetime.now()}])
 
+    def action_send_email(self):
+        template_id = self.env.ref('hms.email_template_send_appointment_email')
+        template_id.send_mail(self.id, force_send=True)
 
-            
+    def create_appointment_list_for_next_day(self):
+        start_day = datetime.today().replace(hour=0, minute=0, second=1, microsecond=0)
+        next_day = start_day + timedelta(days=1)
+        end_day = next_day.replace(hour=23, minute=59, second=59, microsecond=0)
+        appointment_ids = self.env['appointment.details'].search([
+            ('app_date_time', '>', start_day),
+            ('app_date_time', '<=', end_day),
+            ('state', '=', 'confirm')])
+
+        return appointment_ids
+        # appointment_list = []
+        # for rec in appointment_ids:
+        #     appointment_list.append({
+        #         'name' : rec.patient_id.name,
+        #         'main_complain' : rec.main_complain,
+        #         'contact_no' : rec.contact_no,
+        #         'age' : rec.age
+        #     })
+        #
+        # print(appointment_list)
+
+    def action_create_appointment_report_mail(self):
+        template_id = self.env.ref('hms.email_template_send_appointment_detail_admin')
+        template_id.send_mail(self.id, force_send=True)

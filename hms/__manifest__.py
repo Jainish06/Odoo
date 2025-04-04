@@ -9,6 +9,7 @@
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        'data/appointment_email_template.xml',
         'views/doctor_details.xml',
         'views/patient_details.xml',
         'views/department.xml',
@@ -23,7 +24,8 @@
         'views/prescription_details.xml',
         'views/prescription_line.xml',
         'views/stock_picking.xml',
-        'views/sale_order.xml'
+        'views/sale_order.xml',
         ],
-    'application' : True
+    'application' : True,
+    # 'pre_init_hook': 'update_record_rule'
 }

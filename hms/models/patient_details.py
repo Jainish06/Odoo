@@ -115,8 +115,8 @@ class PatientDetails(models.Model):
 
     def _count_no_of_patients(self):
         # This method will be called by a cron job
-        patient_ids = self.env['patient.details'].search([('age', '>', '40')])
-        print(len(patient_ids))
+        patient_ids = self.env['patient.details'].search_count([('age', '<', '10')])
+        print(patient_ids)
 
     def action_open_appointments(self):
         # action = self.env['ir.actions.actions']._for_xml_id('bista_hms.hms_appointment_form_action')
