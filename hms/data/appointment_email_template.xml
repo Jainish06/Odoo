@@ -1,0 +1,71 @@
+<odoo noupdate="1" >
+    <record id="email_template_send_appointment_email" model="mail.template">
+            <field name="name">Appointment Email : Sending</field>
+            <field name="model_id" ref="model_appointment_details"/>
+            <field name="email_from">{{object.env.user.email}}</field>
+            <field name="subject">Appointment Confirmation : {{object.name}}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_to">{{object.patient_id.email}}</field>
+            <field name="body_html" type="html">
+                <strong> <p >Hello <t t-out="object.patient_id.name"/> </p></strong>
+
+                <p>Your time of appointment is on <t t-out="object.app_date_time"/>.</p>
+                <p>We are pleased to confirm your appointment with <t t-out="object.doctor_appointment_id.name"/></p>
+                <p>If you have any questions or need to reschedule, please contact us.</p>
+
+                <p>Thank you!</p>
+                <p>Best regards,</p>
+                <p><t t-out="object.env.user.name"/></p>
+            </field>
+    </record>
+    <record id="email_template_send_appointment_detail_admin" model="mail.template">
+            <field name="name">Appointment Details : Sending Admin</field>
+            <field name="model_id" ref="model_appointment_details"/>
+            <field name="email_from">{{object.env.user.email}}</field>
+            <field name="subject">Appointment Details for tomorrow.</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_to">{{object.env.user.email}}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hello
+                        <strong>
+                            <t t-out="object.env.user.name"/>
+                        </strong>
+                    </p>
+                    <p>Below is the appointment list for tomorrow :</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Appointment No.</th>
+                                <th>Patient Name</th>
+                                <th>Contact</th>
+                                <th>Reason</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="object.create_appointment_list_for_next_day()" t-as="line">
+                                <tr>
+                                    <td>
+                                        <t t-out="line.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-out="line.patient_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-out="line.contact_no"/>
+                                    </td>
+                                    <td>
+                                        <t t-out="line.main_complain"/>
+                                    </td>
+                                    <td>
+                                        <t t-out="line.app_date_time"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </field>
+    </record>
+</odoo>

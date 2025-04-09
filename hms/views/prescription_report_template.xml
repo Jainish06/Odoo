@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="prescription_template1" name="Prescription Report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <center>
+                    <strong>
+                        <h1>Prescription</h1>
+                    </strong>
+                </center>
+                <t t-foreach="docs" t-as="o">
+                    <strong>Patient Name:</strong>
+                    <span t-field="o.patient_id.name"/>
+                    <br/>
+                    <strong>Patient Age:</strong>
+                    <span t-esc="o.patient_id.age or 0"/>
+                    <br/>
+                    <strong>Date:</strong>
+                    <span t-field="o.date"/>
+                    <br/>
+
+                    <table width="100%" class="table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Product</th>
+                                <th style="text-align:right">Price</th>
+                                <th style="text-align:right">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_amt" t-value="0" />
+                            <t t-set="total_qty" t-value="0" />
+                            <tr t-foreach="o.prescription_line_ids" t-as="line">
+                                <td>
+                                    <span t-esc="line_index + 1"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.product_id.display_name"/>
+                                </td>
+                                <td style="text-align:right">
+                                    <span t-field="line.price_unit"/>
+                                </td>
+                                <td style="text-align:right">
+                                    <span t-field="line.qty"/>
+                                </td>
+                                <t t-set="total_amt" t-value="total_amt + line.price_unit" />
+                                <t t-set="total_qty" t-value="total_qty + line.qty" />
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td>Total:</td>
+                                <td t-out="total_amt" style="text-align:right"/>
+                                <td t-esc="total_qty" style="text-align:right"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </t>
+
+        </t>
+    </template>
+</odoo>

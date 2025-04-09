@@ -1,0 +1,51 @@
+<odoo>
+  <record id="sale_rma_list_view" model="ir.ui.view">
+    <field name="name">sale.rma.list</field>
+    <field name="model">sale.rma</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="team_id"/>
+        <field name="date"/>
+        <field name="sale_order_id"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="sale_rma_form_view" model="ir.ui.view">
+    <field name="name">sale.rma.form</field>
+    <field name="model">sale.rma</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="team_id"/>
+            </group>
+          </group>
+          <group>
+              <field name="date"/>
+              <field name="sale_order_id"/>
+            </group>
+          <notebook>
+            <page name="RMA Lines">
+              <field name="rma_line_ids"/>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="sale_rma_action" model="ir.actions.act_window">
+    <field name="name">RMA</field>
+    <field name="res_model">sale.rma</field>
+    <field name="view_mode">list,form</field>
+    <field name='view_id' ref='sale_rma_list_view'/>
+  </record>
+
+  <menuitem id="rma_root" name="RMA"/>
+  <menuitem id="sale_rma_id" name='Sale RMA' parent='rma.rma_root' action='rma.sale_rma_action' sequence="1"/>
+
+</odoo>

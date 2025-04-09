@@ -25,6 +25,10 @@
         'views/prescription_line.xml',
         'views/stock_picking.xml',
         'views/sale_order.xml',
+        'views/prescription_report_template.xml',
+        'views/report.xml',
+        'views/product_template.xml',
+        'wizards/quantity_update_wizard.xml',
         ],
     'application' : True,
     # 'pre_init_hook': 'update_record_rule'

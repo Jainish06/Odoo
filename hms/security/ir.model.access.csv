@@ -6,8 +6,9 @@ hms_department_id_admin,departments.admin,model_departments,hms.group_department
 hms_staff_id,staff.details,model_staff_details,,1,1,1,1
 hms_insurance_id,insurance.details,model_insurance_details,,1,1,1,1
 hms_appointment_id,appointment.details,model_appointment_details,,1,1,1,1
-hms_wizard_id,doctor.list.wizard,model_doctor_list_wizard,,1,1,1,1
+hms_doctor_wizard_id,doctor.list.wizard,model_doctor_list_wizard,,1,1,1,1
 hms_prescription_id_user,prescription.details.user,model_prescription_details,hms.group_prescription_user,1,1,1,0
 hms_prescription_id_user_readonly,prescription.details.user.readonly,model_prescription_details,hms.group_prescription_user_readonly,1,0,0,0
 hms_prescription_id_admin,prescription.details.admin,model_prescription_details,hms.group_prescription_admin,1,1,1,1
 hms_prescription_line_id,prescription.line,model_prescription_line,,1,1,1,1
+hms_update_qty_wizard_id,qty.update.wizard,model_qty_update_wizard,,1,1,1,1

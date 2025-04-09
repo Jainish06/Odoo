@@ -41,6 +41,7 @@ class PatientDetails(models.Model):
     appointment_count = fields.Integer(compute="_compute_appointment_count", string="Appointment Count", store=True)
     prescription_count = fields.Integer(compute='_compute_prescription_count', string='Prescription Count')
     partner_id = fields.Many2one('res.partner', 'Patient Partner')
+    # display_name = fields.Char(string='Display name')
 
     @api.depends('appointment_ids.patient_id')
     def _compute_appointment_count(self):
@@ -61,6 +62,17 @@ class PatientDetails(models.Model):
             val.update({'partner_id': rec.id})
         res = super(PatientDetails, self).create(vals_list)
         return res
+
+    # @api.depends('patient_code', 'name')
+    # def _compute_display_name(self):
+    #     for rec in self:
+    #         if self._context.get('show_name'):
+    #             rec.display_name = rec.name
+    #         else:
+    #             if rec.phone:
+    #                 rec.display_name = f"[{rec.phone}] {rec.name}"
+    #             else:
+    #                 rec.display_name = rec.name
 
     @api.constrains('contact_no','app_date_time')
     def check_phone(self):

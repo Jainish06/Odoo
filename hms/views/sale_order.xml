@@ -20,6 +20,18 @@
             <xpath expr="//list/field[@name='price_unit']" position="after">
                 <field name="original_unit_price"/>
             </xpath>
+            <xpath expr="//list/field[@name='original_unit_price']" position="after">
+                <field name="wh_avail_qty"/>
+            </xpath>
+             <xpath expr="//list/field[@name='wh_avail_qty']" position="after">
+                <field name="wh_location_ids" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//list/field[@name='wh_location_ids']" position="after">
+                <field name="avail_qty_loc"/>
+            </xpath>
+            <xpath expr="//group/field[@name='note']" position="after">
+                <field name="amount_in_words"/>
+            </xpath>
         </field>
     </record>
 
