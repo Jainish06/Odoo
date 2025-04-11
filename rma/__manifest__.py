@@ -11,12 +11,13 @@ Long description of module's purpose
     'category': 'Uncategorized',
     'version': '1.1',
 
-    'depends': ['base', 'sale'],
+    'depends': ['base', 'sale', 'product'],
 
     'data': [
         'security/ir.model.access.csv',
         'views/sale_rma.xml',
-        'views/teams.xml'
+        'views/teams.xml',
+        'wizards/rma_line_wizard.xml'
     ],
     'application' : 'True',
 }

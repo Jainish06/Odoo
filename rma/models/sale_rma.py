@@ -12,8 +12,7 @@ class SaleRma(models.Model):
     team_id = fields.Many2one('teams', string='Team name')
     date = fields.Date(string='Date')
     sale_order_id = fields.Many2one('sale.order', 'Sale Order')
-    # sale_order_line_id = fields.Many2one('sale.order.line')
-    rma_line_ids = fields.Many2many('sale.order.line', string='RMA Lines')
+    rma_line_ids = fields.One2many('sale.rma.line', 'sale_rma_id', string='RMA Lines')
 
     @api.model_create_multi
     def create(self, vals):
@@ -35,8 +34,28 @@ class SaleRma(models.Model):
             return super(SaleRma, self).create(vals)
 
 
-    # @api.onchange('sale_order_id')
-    # def get_lines(self):
-    #     for rec in self:
-    #         rec.rma_line_ids = (4,rec.sale_order_id.order_line.id)
+    @api.onchange('sale_order_id')
+    def get_lines(self):
+        for rec in self:
+            rec.rma_line_ids = [(5,0,0)]
+            list = []
+            for lines in rec.sale_order_id.order_line:
+                list.append((0,0,{
+                    'product_id' : lines.product_id.id,
+                    'qty' : lines.product_uom_qty,
+                    'unit_price' : lines.price_unit,
+                    'to_receive_qty' : lines.product_uom_qty,
+                }))
+            rec.rma_line_ids = list
 
+    def action_open_return_wizard(self):
+        view_id = self.env.ref('rma.rma_line_wizard_wizard').id
+        print("view_id", view_id)
+        return {
+            'name': 'Return',
+            'view_mode': 'form',
+            'res_model': 'rma.line.wizard',
+            'view_id': view_id,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }

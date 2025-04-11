@@ -2,3 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_sale_rma,sale.rma,model_sale_rma,,1,1,1,1
 access_sale_rma_line,sale.rma.line,model_sale_rma_line,,1,1,1,1
 access_teams,teams,model_teams,,1,1,1,1
+access_rma_line_wizard,rma.line.wizard,model_rma_line_wizard,,1,1,1,1
+access_return_lines,return.lines,model_return_lines,,1,1,1,1
+

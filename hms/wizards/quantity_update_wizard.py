@@ -3,7 +3,7 @@ from odoo import models, fields, api
 
 class QuantityUpdateWizard(models.TransientModel):
     _name = 'qty.update.wizard'
-    _inherit = 'stock.quant'
+    # _inherit = 'stock.quant'
     _description = 'Quantity update on location'
 
     qty_location_id = fields.Many2one('stock.location', 'Location')
@@ -17,6 +17,9 @@ class QuantityUpdateWizard(models.TransientModel):
 
     def action_update_qty(self):
 
-        records = self.env['stock.quant'].search([('location_id', '=', self.qty_location_id)])
-        for rec in records:
-            rec.inventory_quantity_auto_apply = rec.qty_update
+        for rec in self:
+            active_id = self.env.context.get('active_id')
+            product_id = self.env['product.template'].browse(active_id)
+            records = self.env['stock.quant'].search([('location_id', '=', rec.qty_location_id.id), ('product_id', '=', product_id.product_variant_id.id)])
+            records.write({'inventory_quantity' : rec.qty_update})
+            records._apply_inventory()

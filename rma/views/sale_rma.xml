@@ -17,6 +17,9 @@
     <field name="model">sale.rma</field>
     <field name="arch" type="xml">
       <form>
+        <header>
+          <button name="action_open_return_wizard" type="object" string="Return" class="btn-primary"/>
+        </header>
         <sheet>
           <group>
             <group>
@@ -30,7 +33,15 @@
             </group>
           <notebook>
             <page name="RMA Lines">
-              <field name="rma_line_ids"/>
+              <field name="rma_line_ids">
+                <list editable="bottom">
+                  <field name="product_id"/>
+                  <field name="qty"/>
+                  <field name="unit_price"/>
+                  <field name="to_receive_qty"/>
+                  <field name="received_qty"/>
+                </list>
+              </field>
             </page>
           </notebook>
         </sheet>

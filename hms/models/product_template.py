@@ -15,5 +15,5 @@ class ProductTemplate(models.Model):
             'view_id': view_id,
             'type': 'ir.actions.act_window',
             'target': 'new',
-            'context' : {'default_product_id' : self.id}
+            # 'context' : {'default_product_id' : self.id}
         }

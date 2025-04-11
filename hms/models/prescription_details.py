@@ -4,6 +4,7 @@ class PrescriptionDetails(models.Model):
     _name = 'prescription.details'
     _description = 'Prescription Details'
     _rec_name = 'patient_id'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     patient_id = fields.Many2one('patient.details', 'Patients')
     date = fields.Date('Date')

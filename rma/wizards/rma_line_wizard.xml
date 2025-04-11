@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="rma_line_wizard_wizard" model="ir.ui.view">
+        <field name="name">rma.line.wizard.wizard</field>
+        <field name="model">rma.line.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="ticket_id" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page name="Return Lines">
+                            <field name="return_line_ids">
+                                <list>
+                                    <field name="product_id"/>
+                                    <field name="qty_avail"/>
+                                    <field name="return_qty"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_update_return_qty" type="object" string="Update" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

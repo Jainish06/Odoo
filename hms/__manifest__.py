@@ -29,6 +29,7 @@
         'views/report.xml',
         'views/product_template.xml',
         'wizards/quantity_update_wizard.xml',
+        'views/sale_order_report_template.xml'
         ],
     'application' : True,
     # 'pre_init_hook': 'update_record_rule'

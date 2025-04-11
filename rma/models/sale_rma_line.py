@@ -7,11 +7,11 @@ class SaleRmaLine(models.Model):
     _name = 'sale.rma.line'
     _description = 'Return Management'
 
-    # name = fields.Char(string='Sale Order')
-    # product = fields.Char(string='Product')
-    # qty = fields.Integer(string='Quantity')
-    # unit_price = fields.Integer(string='Unit Price')
-    sale_order_id = fields.Many2one('sale.order', 'Sale Order')
+    product_id = fields.Many2one('product.product', string='Product')
+    qty = fields.Integer(string='Quantity')
+    unit_price = fields.Integer(string='Unit Price')
+    to_receive_qty = fields.Integer(string='Qty to receive')
+    received_qty = fields.Integer(string='Qty received')
     sale_rma_id = fields.Many2one('sale.rma')
 
 
