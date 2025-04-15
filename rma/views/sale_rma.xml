@@ -21,6 +21,11 @@
           <button name="action_open_return_wizard" type="object" string="Return" class="btn-primary"/>
         </header>
         <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_delivery_form" type="object" icon="fa-solid fa-truck" string="Picking" >
+                <field name="picking_count" string="Picking" widget="statinfo"/>
+            </button>
+          </div>
           <group>
             <group>
               <field name="name"/>

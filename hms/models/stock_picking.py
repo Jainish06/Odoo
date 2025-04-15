@@ -1,5 +1,4 @@
 from odoo import models, api, fields
-from odoo.api import depends
 
 
 class StockPicking(models.Model):

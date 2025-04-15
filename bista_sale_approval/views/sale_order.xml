@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_add_approve" model="ir.ui.view">
+        <field name="name">sale.order.inherit.approve</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_preview_sale_order']" postion="after">
+                <button name="button_approve" type="object" invisible="state != 'to approve'" string="Approve Order" class="btn-primary"  groups="sales_team.group_sale_manager" />
+            </xpath>
+            <xpath expr="//button[@name='button_approve']" postion="after">
+                <button name="button_cancel" invisible="state not in ('draft', 'to approve', 'sent', 'purchase')" string="Cancel" type="object"  />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -85,7 +85,7 @@ class PrescriptionDetails(models.Model):
             'target': 'current',
         }
 
-        if 1 >= 1:
+        if self.delivery_count >= 1:
             res['view_mode'] = 'list,form'
             res['views'] = [(list_view_id, 'list'), (form_view_id, 'form')]
             res['domain'] = ([('prescription_id', '=', self.id)])

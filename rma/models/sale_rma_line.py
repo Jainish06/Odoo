@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 
 
@@ -13,6 +12,7 @@ class SaleRmaLine(models.Model):
     to_receive_qty = fields.Integer(string='Qty to receive')
     received_qty = fields.Integer(string='Qty received')
     sale_rma_id = fields.Many2one('sale.rma')
+    move_id = fields.Many2one('stock.move')
 
 
 
