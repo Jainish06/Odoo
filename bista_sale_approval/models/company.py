@@ -1,8 +1,7 @@
 from odoo import models, fields, api
 
 
-class SaleApprovalCompany(models.Model):
-    _description = 'Approval'
+class Company(models.Model):
     _inherit = 'res.company'
 
     so_double_validation = fields.Selection([

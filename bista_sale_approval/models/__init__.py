@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import sale_approval_company
-from . import sale_approval
+from. import company
+from . import res_config_setting
 from . import sale_order

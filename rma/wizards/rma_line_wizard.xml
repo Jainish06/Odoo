@@ -16,6 +16,7 @@
                                 <list editable="bottom">
                                     <field name="product_id"/>
                                     <field name="qty_avail"/>
+                                    <field name="sale_rma_line_id" column_invisible="1"/>
                                     <field name="return_qty"/>
                                 </list>
                             </field>
@@ -23,7 +24,7 @@
                     </notebook>
                 </sheet>
                 <footer>
-                    <button name="action_update_return_qty" type="object" string="Update" class="btn-primary"/>
+                    <button name="action_create_return" type="object" string="Process" class="btn-primary"/>
                 </footer>
             </form>
         </field>

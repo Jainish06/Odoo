@@ -65,7 +65,7 @@ class SaleRma(models.Model):
             'target': 'current',
         }
         # picking_ids = self.rma_line_ids.mapped('move_ids').mapped('picking_id')
-        if 1 >= 1:
+        if self.picking_count >= 1:
             res['view_mode'] = 'list,form'
             res['views'] = [(list_view_id, 'list'), (form_view_id, 'form')]
             res['domain'] = ([('sale_rma_id', '=', self.id)])

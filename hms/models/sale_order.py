@@ -13,7 +13,8 @@ class SaleOrder(models.Model):
 
     def _prepare_invoice(self):
         vals = super(SaleOrder, self)._prepare_invoice()
-        vals['lead_referral'] = self.lead_reference
+        if self.lead_reference:
+            vals['lead_reference'] = self.lead_reference
         return vals
 
     @api.depends('order_line.price_subtotal', 'currency_id', 'company_id', 'discount_amt', 'amount_total')
