@@ -1,0 +1,21 @@
+name_search
+read
+force save
+email template
+report inherit
+groups
+wizard value passing
+many2many linking
+validations
+add button to create report
+search view
+context
+related field
+search view/filter/group-by
+pre-init hook
+parent.field for using in xpath
+
+
+for stages
+admin-not delete
+user-read

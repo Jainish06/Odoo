@@ -1,0 +1,18 @@
+<odoo>
+    <record id="email_template_send_sale_person" model="mail.template">
+            <field name="name">Simple Mail</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="email_from">{{object.env.user.email}}</field>
+            <field name="subject">Mail to sale person.</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="email_to">{{object.user_id.login}}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    <p>Hello</p>
+                    <p>
+                        This is mail os SO
+                    </p>
+                </div>
+            </field>
+    </record>
+</odoo>

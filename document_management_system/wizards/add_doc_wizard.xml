@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="add_doc_wizard_wizard" model="ir.ui.view">
+        <field name="name">add.doc.wizard.wizard</field>
+        <field name="model">add.doc.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="product_ids" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="button_add_products_from_wizard" type="object" string="Add"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_add_doc_wizard_wizard" model="ir.actions.act_window">
+        <field name="name">Add Doc</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">add.doc.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>

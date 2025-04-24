@@ -20,7 +20,7 @@ class SaleRmaLine(models.Model):
     @api.depends('move_ids.product_uom_qty', 'move_ids.state')
     def _compute_to_receive_qty(self):
         for rec in self:
-            rec.to_receive_qty = sum(rec.move_ids.filtered(lambda s: s.state != 'done' and s.state != 'cancel').mapped('product_uom_qty'))
+            rec.to_receive_qty = sum(rec.move_ids.filtered(lambda s: s.state not in ['cancel', 'done']).mapped('product_uom_qty'))
 
     @api.depends('move_ids.quantity', 'move_ids.state')
     def _compute_received_qty(self):
@@ -30,7 +30,4 @@ class SaleRmaLine(models.Model):
     @api.depends('to_receive_qty', 'received_qty')
     def _compute_avail_qty(self):
         for rec in self:
-            if rec.to_receive_qty != 0:
-                rec.qty_avail = rec.qty - rec.to_receive_qty
-            else:
-                rec.qty_avail = rec.qty - rec.received_qty
+            rec.qty_avail = rec.qty - (rec.to_receive_qty + rec.received_qty)

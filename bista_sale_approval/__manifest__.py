@@ -13,12 +13,15 @@ Long description of module's purpose
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base', 'sale'],
+    'depends': ['crm', 'sale_crm', 'purchase'],
 
     'data': [
         'security/ir.model.access.csv',
+        'data/ir_cron.xml',
+        'data/email_template.xml',
         'views/res_config_setting.xml',
         'views/sale_order.xml',
+        'views/purchase_order.xml'
     ],
     'application' : True,
 }

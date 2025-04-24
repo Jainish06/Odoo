@@ -13,4 +13,6 @@ class ResConfigSetting(models.TransientModel):
                                                   readonly=False)
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency",
                                           readonly=True)
+    quote_notification = fields.Boolean(related='company_id.quote_notification', string='Quote notification.', readonly=False)
+    notification_days = fields.Integer(related='company_id.notification_days', string='Days', readonly=False)
 

@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from packaging.utils import _
 
 from odoo import models, fields, api
@@ -10,6 +12,7 @@ class SaleOrder(models.Model):
 
     state = fields.Selection(selection_add = [ ('to approve', 'To Approve'), ('sale',)])
     date_approve = fields.Datetime('Confirmation Date', readonly=True, index=True, copy=False)
+    quote_notification = fields.Boolean(related='company_id.quote_notification', string='Quote notification.')
 
     def _confirmation_error_message(self):
         """ Return whether order can be confirmed or not if not then returm error message. """
@@ -38,19 +41,21 @@ class SaleOrder(models.Model):
             or self.env.user.has_group('sales_team.group_sale_manager'))
 
     def button_approve(self, force=False):
-        super(SaleOrder, self).action_confirm()
+        self.with_context(approved=True).action_confirm()
         self = self.filtered(lambda order: order._approval_allowed())
         self.write({'state': 'sale', 'date_approve': fields.Datetime.now()})
         return {}
 
-    def action_confirm(self):
-        for order in self:
-            if order.state not in ['draft', 'sent']:
-                continue
-            if order._approval_allowed():
-                order.button_approve()
-            else:
-                order.write({'state': 'to approve'})
+    # def action_confirm(self):
+    #     if self._context.get('approved'):
+    #         super(SaleOrder, self).action_confirm()
+    #     else:
+    #         for order in self:
+    #             if order._approval_allowed():
+    #                 order.button_approve()
+    #             else:
+    #                 order.write({'state': 'to approve'})
+
 
     def button_cancel(self):
         sale_orders_with_invoices = self.filtered(
@@ -60,3 +65,13 @@ class SaleOrder(models.Model):
                 _("Unable to cancel sale order(s): %s. You must first cancel their related vendor bills.",
                   format_list(self.env, sale_orders_with_invoices.mapped('display_name'))))
         self.write({'state': 'cancel', 'mail_reminder_confirmed': False})
+
+    def get_near_expiry_date_records(self):
+        today = fields.Date.today()
+        expiry_date = today + timedelta(days=self.company_id.notification_days)
+        records = self.env['sale.order'].search([('validity_date', '>', today), ('validity_date', '<=', expiry_date)])
+        return records
+
+    def send_expiration_reminder(self):
+        template_id = self.env.ref('bista_sale_approval.email_template_send_reminder_email')
+        template_id.send_mail(self.id, force_send=True)

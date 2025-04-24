@@ -17,7 +17,8 @@ Long description of module's purpose
         'security/ir.model.access.csv',
         'views/sale_rma.xml',
         'views/teams.xml',
-        'wizards/rma_line_wizard.xml'
+        'wizards/rma_line_wizard.xml',
+        'wizards/rma_invoice_wizard.xml'
     ],
     'application' : 'True',
 }

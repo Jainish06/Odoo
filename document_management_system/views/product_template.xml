@@ -1,0 +1,12 @@
+<odoo>
+    <record id="product_inherit_doc_id" model="ir.ui.view">
+        <field name="name">product.inherit.doc.id</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_tooltip']" position="after">
+                <field name="document_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,36 @@
+<odoo>
+  <record id="doc_tag_master_list_id" model="ir.ui.view">
+      <field name="name">doc.tag.master.list.id</field>
+      <field name="model">doc.tag.master</field>
+      <field name="arch" type="xml">
+          <list string="Tags" editable="bottom">
+              <field name="name"/>
+          </list>
+      </field>
+  </record>
+
+<!--   <record id="doc_tag_master_form_id" model="ir.ui.view">-->
+<!--      <field name="name">doc.tag.master.form.id</field>-->
+<!--      <field name="model">doc.tag.master</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--          <form>-->
+<!--            <sheet>-->
+<!--              <group>-->
+<!--                <field name="name"/>-->
+<!--                <field name="attachment_id"/>-->
+<!--                <field name="tag_ids" widget="many2many_tags"/>-->
+<!--              </group>-->
+<!--            </sheet>-->
+<!--          </form>-->
+<!--      </field>-->
+<!--  </record>-->
+
+  <record id="action_doc_tag_id" model="ir.actions.act_window">
+      <field name="name">Tags</field>
+      <field name="res_model">doc.tag.master</field>
+      <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="doc_tag_id" name="Tags" parent="doc_custom_root" action="action_doc_tag_id" sequence="2"/>
+
+</odoo>

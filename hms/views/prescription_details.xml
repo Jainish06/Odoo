@@ -48,7 +48,7 @@
                         <page name="Prescription Lines">
                             <field name="prescription_line_ids">
                                 <list>
-                                    <field name="product_id"/>
+                                    <field name="product_id" options='{"no_quick_create": True, "no_create_edit": True}'/>
                                     <field name="qty"/>
                                     <field name="price_unit"/>
                                     <field name="total_price"/>

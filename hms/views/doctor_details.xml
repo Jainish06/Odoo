@@ -81,5 +81,5 @@
     </record>
 
     <menuitem id="hms_root" name="Hospital Management System"/>
-    <menuitem id="doctor_details_id" name='Doctor Details' parent='hms_root' action='hms.doctor_details_action' sequence="2"/>
+    <menuitem id="doctor_details_id" name='Doctor Details' parent='hms_root' action='hms.doctor_details_action' sequence="1"/>
 </odoo>

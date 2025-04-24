@@ -1,5 +1,4 @@
 <odoo>
-
   <record id="crm_lead_form_view_inherit" model="ir.ui.view">
     <field name="name">crm.lead.inherit.stage</field>
     <field name="model">crm.lead</field>
@@ -7,6 +6,9 @@
     <field name="arch" type="xml">
       <xpath expr="//field[@name='tag_ids']" position="after">
         <field name="product_ids" widget="many2many_tags"/>
+      </xpath>
+      <xpath expr="//field[@name='product_ids']" position="after">
+        <field name="probability_stage_id"/>
       </xpath>
     </field>
   </record>

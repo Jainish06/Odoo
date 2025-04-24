@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="so_custom_report" inherit_id="stock.report_delivery_document">
+<!--        xpath = "//div[@class='page']/table[1][@class='table table-borderless']"-->
+        <xpath expr="//table[1]" position="after">

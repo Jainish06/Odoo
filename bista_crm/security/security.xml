@@ -1,0 +1,8 @@
+<odoo>
+    <record id="group_probability_stage_user" model="res.groups">
+        <field name="name">Probability stages User Readonly</field>
+    </record>
+    <record id="group_probability_stage_admin" model="res.groups">
+        <field name="name">Probability stages Admin</field>
+    </record>
+</odoo>

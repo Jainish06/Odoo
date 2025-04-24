@@ -5,13 +5,24 @@
         <field name="priority" eval="10"/>
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//setting[@id='product_matrix']" position="after">
+            <xpath expr="//setting[@id='no_edit_order']" position="after">
                 <setting id="so_order_approval" company_dependent="1" help="Request managers to approve orders above a minimum amount">
                     <field name="so_order_approval"/>
                     <div class="content-group" invisible="not so_order_approval">
                         <div class="row mt16">
                             <label for="so_double_validation_amount" class="col-lg-4 o_light_label"/>
                             <field name="so_double_validation_amount"/>
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+             <xpath expr="//setting[@id='so_order_approval']" position="after">
+                <setting id="quote_notification" help="Send notification before expiry for entered days.">
+                    <field name="quote_notification"/>
+                    <div class="content-group" invisible="not quote_notification">
+                        <div class="row mt16">
+                            <label for="notification_days" class="col-lg-4 o_light_label"/>
+                            <field name="notification_days"/>
                         </div>
                     </div>
                 </setting>

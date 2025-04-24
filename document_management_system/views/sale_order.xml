@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_add_doc" model="ir.ui.view">
+        <field name="name">sale.order.inherit.doc</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <button name="button_get_docs" type="object" string="Get Documents" class="btn-primary" invisible="state == 'sale'"/>
+            </xpath>
+            <xpath expr="//header" position="after">
+<!--                <button name="action_open_add_doc_wizard" type="object" string="Add Doc" class="btn-primary"/>-->
+                <button id="add_doc" name="%(document_management_system.action_add_doc_wizard_wizard)d" string="Add Doc" type="action" class="btn-primary"/>
+            </xpath>
+             <xpath expr="//header" position="after">
+                <button name="button_update_docs" type="object" string="Update Documents" class="btn-primary" invisible="state != 'sale' or not sys_param_value"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="doc_tag_ids" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='doc_tag_ids']" position="after">
+                <field name="document_ids" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='document_ids']" position="after">
+                <field name="doc_count"/>
+            </xpath>
+             <xpath expr="//field[@name='doc_count']" position="after">
+                <field name="sys_param_value" readonly='True'/>
+            </xpath>
+           <xpath expr="//page[@name='customer_signature']" position="after">
+               <page string="Documents" >
+                   <field name="doc_line_ids">
+                       <list editable="bottom">
+                           <field name="doc_id"/>
+                           <field name="product_ids" widget="many2many_tags"/>
+                       </list>
+                   </field>
+               </page>
+           </xpath>
+        </field>
+    </record>
+</odoo>
