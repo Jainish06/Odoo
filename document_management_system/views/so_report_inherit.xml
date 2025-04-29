@@ -1,5 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <template id="so_custom_report" inherit_id="stock.report_delivery_document">
-<!--        xpath = "//div[@class='page']/table[1][@class='table table-borderless']"-->
-        <xpath expr="//table[1]" position="after">
+    <data>
+        <template id="sale_order_inherit"  inherit_id="sale.report_saleorder_document">
+            <xpath expr="//div[@name='signature']" position="after">
+                <br/>
+                <br/>
+                <div class="row mb-4">
+                    <table width="100%" id="table1">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    Documents and Products
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr style="text-align: center;" id="tr1">
+                            <td><strong>Documents :</strong></td>
+                            <td id="heading2"><strong>Products :</strong></td>
+                        </tr>
+                        <tbody>
+                            <tr t-foreach="doc.doc_line_ids" t-as="docs">
+                                <td style="text-align: center; vertical-align: middle;"><span t-esc="docs.doc_id.name"/></td>
+                                <td style="text-align: center; vertical-align: middle; ">
+                                    <t t-foreach="docs.product_ids" t-as="o">
+                                        <t t-esc="o.name" />
+                                        <br/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

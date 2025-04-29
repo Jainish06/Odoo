@@ -25,6 +25,8 @@ Long description of module's purpose
         'views/sale_order.xml',
         'views/stock_picking.xml',
         'views/do_report_inherit_template.xml',
+        'views/document_line.xml',
+        'views/so_report_inherit.xml'
 
     ],
     'application' : True,

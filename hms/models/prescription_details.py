@@ -6,7 +6,7 @@ class PrescriptionDetails(models.Model):
     _rec_name = 'patient_id'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    patient_id = fields.Many2one('patient.details', 'Patients')
+    patient_id = fields.Many2one('patient.details', 'Patients', tracking='True')
     date = fields.Date('Date')
     state = fields.Selection([('draft', 'Draft'), ('confirm', 'Confirm'), ('cancel', 'Cancel')], 'State', default='draft')
     prescription_line_ids = fields.One2many('prescription.line', 'prescription_id', 'Prescription Lines')
@@ -133,3 +133,21 @@ class PrescriptionDetails(models.Model):
             line_vals_list.append(line_vals)
             # line_vals_list.append((0, 0, line_vals))
         return line_vals_list
+
+    from odoo import models, api, fields
+
+    # class ReportPrescription(models.AbstractModel):
+    #     _name = 'report.bista_hms.prescription_template'
+    #
+    #     def _get_report_values(self, docids, data=None):
+    #         if data:
+    #             pass
+    #
+    #         prescription = self.env['hms.prescription'].browse(docids)
+    #         return {
+    #             'doc_ids': docids,
+    #             'doc_model': self.env['hms.prescription'],
+    #             'data': data,
+    #             'my_data': {'age': 25},
+    #             'docs': prescription,
+    #         }

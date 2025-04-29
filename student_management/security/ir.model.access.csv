@@ -3,3 +3,5 @@ sms_student_id,res.student,model_res_student,,1,1,1,1
 sms_subject_id,subject.subject,model_subject_subject,,1,1,1,1
 sms_marks_id,previous.year.marks,model_previous_year_marks,,1,1,1,1
 sms_fee_id,tuition.fee.structure,model_tuition_fee_structure,,1,1,1,1
+sms_student_activity_user,student.activity.user,model_student_activity,student_management.group_activity_user_id,1,1,1,1
+sms_student_activity_admin,student.activity.admin,model_student_activity,student_management.group_activity_admin_id,1,1,1,1

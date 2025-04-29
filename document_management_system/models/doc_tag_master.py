@@ -6,3 +6,5 @@ class DocTagMaster(models.Model):
     _description = 'Tag master'
 
     name = fields.Char(string='Tag Name')
+
+

@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_crm_probability_stage,crm.probability.stage,model_crm_probability_stage,,1,1,1,1
+access_crm_probability_stage_admin,crm.probability.stage.admin,model_crm_probability_stage,sales_team.group_sale_manager,1,1,1,0
+access_crm_probability_stage_user,crm.probability.stage.user,model_crm_probability_stage,sales_team.group_sale_salesman,1,0,0,0

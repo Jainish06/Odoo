@@ -1,0 +1,36 @@
+<odoo>
+    <record id="pharmacy_user_group_id" model="res.groups">
+        <field name="name">Pharmacy User Group</field>
+    </record>
+
+     <record id="pharmacy_admin_group_id" model="res.groups">
+        <field name="name">Pharmacy Admin Group</field>
+        <field name="implied_ids" eval="[(4, ref('practical_jainishpathak.pharmacy_user_group_id'))]"/>
+    </record>
+
+     <record id="so_approver" model="res.groups">
+        <field name="name">Sale Approver</field>
+    </record>
+
+    <record id="pharmacy_rule_user_readonly" model="ir.rule">
+        <field name="name">Pharmacy rule user readonly.</field>
+        <field ref="model_pharmacy_master" name="model_id"/>
+        <field name="domain_force">[( 1, '=', 1 )]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(4, ref('practical_jainishpathak.pharmacy_user_group_id'))]"/>
+    </record>
+
+    <record id="pharmacy_rule_admin" model="ir.rule">
+        <field name="name">Pharmacy rule admin.</field>
+        <field ref="model_pharmacy_master" name="model_id"/>
+        <field name="domain_force">[( 1, '=', 1 )]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(4, ref('practical_jainishpathak.pharmacy_admin_group_id'))]"/>
+    </record>
+</odoo>

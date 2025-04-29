@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="stock_delivery_report" inherit_id="stock.report_delivery_document">
+         <xpath expr="//div[@name='div_sched_date']" position="after">
+            <div t-if="o.user_id" class="col col-3 mw-100 mb-2">
+                <strong>Responsible</strong>
+                <div t-field="o.user_id" class="m-0"/>
+            </div>
+         </xpath>
+        <xpath expr="//table[@name='stock_move_line_table']" position="after">
+            <strong>Note</strong>
+            <div t-field="o.note" class="m-0"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_inherit_move_field" model="ir.ui.view">
+        <field name="name">sale.order.inherit.move.field</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//group[@name='partner_details']/field[@name='partner_shipping_id']" position="after">-->
+<!--                <field name="parent.warehouse_id" position="move"/>-->
+<!--            </xpath>-->
+            <xpath expr="//page[@name='order_lines']/field[@name='order_line']" position="before">
+                <button name="button_add_products" type="object" string="Add Products"/>
+            </xpath>
+             <xpath expr="//group[@name='sales_person']" position="inside">
+                <field name="service_product_count"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

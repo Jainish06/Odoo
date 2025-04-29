@@ -72,3 +72,4 @@
 
     <menuitem id="prescription_details_id" name='Prescription Details' parent='hms.hms_root' action='hms.prescription_details_action' sequence="7"/>
 </odoo>
+

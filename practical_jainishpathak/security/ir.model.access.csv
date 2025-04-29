@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pharmacy_master_user,pharmacy.master.user,model_pharmacy_master,pharmacy_user_group_id,1,1,1,0
+access_pharmacy_master_admin,pharmacy.master.admin,model_pharmacy_master,pharmacy_admin_group_id,1,1,1,0
+access_add_product_wizard,add.product.wizard,model_add_product_wizard,,1,1,1,1

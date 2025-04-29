@@ -7,3 +7,4 @@ access_return_lines,return.lines,model_return_lines,,1,1,1,1
 access_rma_invoice_wizard,rma.invoice.wizard,model_rma_invoice_wizard,,1,1,1,1
 access_invoice_line,invoice.line,model_invoice_line,,1,1,1,1
 
+

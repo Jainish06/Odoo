@@ -1,0 +1,28 @@
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="inherit_mail_activity_schedule" model="ir.ui.view">
+        <field name="name">inherit.mail.activity.schedule</field>
+        <field name="model">mail.activity.schedule</field>
+        <field name="inherit_id" ref="mail.mail_activity_schedule_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='activity_type_id']" position="attributes">
+                <attribute name="string">Connection</attribute>
+            </xpath>
+            <xpath expr="//field[@name='activity_type_id']" position="after">
+                <field name="meaningful_connection"/>
+            </xpath>
+            <xpath expr="//button[@name='action_schedule_activities']" position="after">
+                <field name="or_string" string="Or"/>
+            </xpath>
+            <xpath expr="//button[@name='action_schedule_activities_done']" position="after">
+                <field name="or_string" string="Or"/>
+            </xpath>
+            <xpath expr="//button[@name='action_schedule_activities_done_and_schedule']" position="after">
+                <field name="or_string" string="Or"/>
+            </xpath>
+<!--            <xpath expr="//field[@name='activity_user_id']" position="attributes">-->
+<!--                <attribute name="domain">[('activity_user_id', '=', '[1]')]</attribute>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+</odoo>

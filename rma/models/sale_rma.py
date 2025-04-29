@@ -15,6 +15,7 @@ class SaleRma(models.Model):
     picking_count = fields.Integer(compute='_compute_picking_count', string='Picking Count', store=True)
     move_ids = fields.One2many('account.move', 'sale_rma_id', string='Invoice')
     invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', store=True)
+    display_name = fields.Char(compute='_compute_display_name', string='Name')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -112,3 +113,14 @@ class SaleRma(models.Model):
             res['view_id'] = False
 
         return res
+
+    @api.depends('team_id', 'name')
+    def _compute_display_name(self):
+        for rec in self:
+            if self._context.get('show_name'):
+                rec.display_name = rec.name
+            else:
+                if rec.sale_order_id:
+                    rec.display_name = f"[{rec.sale_order_id.id}] {rec.name}"
+                else:
+                    rec.display_name = rec.name

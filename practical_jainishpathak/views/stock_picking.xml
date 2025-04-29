@@ -1,0 +1,14 @@
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="picking_inherit_move_field" model="ir.ui.view">
+        <field name="name">picking.inherit.move.field</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="sale_stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="sale_id" position="move"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

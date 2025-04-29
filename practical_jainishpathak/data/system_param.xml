@@ -1,0 +1,12 @@
+<odoo>
+    <data noupdate="1">
+        <record id="practical_jainishpathak.sale_approval" model="ir.config_parameter">
+            <field name="key">practical_jainishpathak.sale_approval</field>
+            <field name="value">0</field>
+        </record>
+        <record id="practical_jainishpathak.sale_min_amount" model="ir.config_parameter">
+            <field name="key">practical_jainishpathak.sale_min_amount</field>
+            <field name="value">0</field>
+        </record>
+    </data>
+</odoo>

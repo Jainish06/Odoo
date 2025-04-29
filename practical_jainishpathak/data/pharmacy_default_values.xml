@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record model="pharmacy.master" id="pharmacy_value_1">
+        <field name="name">Pharmalabs</field>
+    </record>
+     <record model="pharmacy.master" id="pharmacy_value_2">
+        <field name="name">Wells</field>
+    </record>
+     <record model="pharmacy.master" id="pharmacy_value_3">
+        <field name="name">N/A</field>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+    <record id="email_template_send_vendor" model="mail.template">
+            <field name="name">Simple Mail</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="email_from">{{object.env.user.email}}</field>
+            <field name="subject">New Purchase Order {object.company_id.name}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="email_to">{{object.partner_id.email}}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    <p>Hello {Vendor Name}, </p>
+                    <p>
+                        Please check the new Purchase order {PO Order Number}.<br/>
+                        The Amount total is $ {PO Order Total}.<br/>
+                        Please fulfill this order as soon as possible.
+                    </p>
+                </div>
+            </field>
+            <field name="report_template_ids" eval="[(4, ref('purchase.action_report_purchase_order'))]" />
+    </record>
+</odoo>

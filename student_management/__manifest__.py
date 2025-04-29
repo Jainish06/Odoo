@@ -18,12 +18,14 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/res_student.xml',
         'views/subject_subject.xml',
         'views/tuition_fee_structure.xml',
         'views/res_partner.xml',
+        'views/student_activity.xml',
         'data/ir_sequence.xml',
-        'data/ir_cron.xml'
+        'data/ir_cron.xml',
     ],
     'application':'True',
 }
