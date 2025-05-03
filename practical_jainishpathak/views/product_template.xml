@@ -7,7 +7,6 @@
             <xpath expr="//group[@name='group_standard_price']/field[@name='default_code']" position="after">
                 <field name="pharmacy_master_id"/>
             </xpath>
-
         </field>
     </record>
 </odoo>

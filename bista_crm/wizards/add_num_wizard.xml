@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="add_num_wizard_wizard" model="ir.ui.view">
+        <field name="name">add.num.wizard.wizard</field>
+        <field name="model">add.num.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="num" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="assign_lot_num" type="object" string="Assign"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

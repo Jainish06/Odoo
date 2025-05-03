@@ -34,6 +34,10 @@
                                 icon="fa-solid fa-truck" string="Delivery" invisible="state != 'confirm'">
                             <field name="delivery_count" string="Delivery" widget="statinfo"/>
                         </button>
+                        <button name="action_open_invoice_form" type="object"
+                                icon="fa-solid fa-truck" string="Invoice" invisible="state != 'confirm'">
+                            <field name="invoice_count" string="Invoice" widget="statinfo"/>
+                        </button>
                     </div>
                     <group>
                         <group>

@@ -6,7 +6,7 @@ class PrescriptionDetails(models.Model):
     _rec_name = 'patient_id'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    patient_id = fields.Many2one('patient.details', 'Patients', tracking='True')
+    patient_id = fields.Many2one('patient.details', 'Patients')
     date = fields.Date('Date')
     state = fields.Selection([('draft', 'Draft'), ('confirm', 'Confirm'), ('cancel', 'Cancel')], 'State', default='draft')
     prescription_line_ids = fields.One2many('prescription.line', 'prescription_id', 'Prescription Lines')
@@ -15,13 +15,20 @@ class PrescriptionDetails(models.Model):
     picking_ids = fields.Many2many('stock.picking', string="Deliveries")
     lead_reference = fields.Char(string="Lead Reference")
     delivery_ids = fields.One2many('stock.picking', 'prescription_id', 'Delivery')
+    move_ids = fields.One2many('account.move', 'prescription_id', 'Invoice')
     delivery_count = fields.Integer(compute='_compute_delivery_count', string='Delivery Count', store=True)
     delivered_qty = fields.Integer(string='Delivered Qty')
+    invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', store=True)
 
     @api.depends('prescription_line_ids.total_price')
     def _compute_total_amount(self):
         for record in self:
             record.total_amount = sum(record.prescription_line_ids.mapped('total_price'))
+
+    @api.depends('move_ids.prescription_id')
+    def _compute_invoice_count(self):
+        for rec in self:
+            rec.invoice_count = self.env['account.move'].search_count([('prescription_id', '=', rec.id)])
 
     @api.depends('delivery_ids.prescription_id')
     def _compute_delivery_count(self):
@@ -51,9 +58,8 @@ class PrescriptionDetails(models.Model):
             'partner_id': self.patient_id.partner_id.id,
             'partner_shipping_id': self.patient_id.partner_id.id,
             'company_id': self.env.user.company_id.id,
-            'invoice_line_ids': [],
             'user_id': self.env.user.id,
-            'invoice_date' : self.date
+            'invoice_date' : self.date,
         }
         return values
 
@@ -86,6 +92,27 @@ class PrescriptionDetails(models.Model):
         }
 
         if self.delivery_count >= 1:
+            res['view_mode'] = 'list,form'
+            res['views'] = [(list_view_id, 'list'), (form_view_id, 'form')]
+            res['domain'] = ([('prescription_id', '=', self.id)])
+            res['view_id'] = False
+
+        return res
+
+    def action_open_invoice_form(self):
+        form_view_id = self.env.ref('account.view_move_form').id
+        list_view_id = self.env.ref('account.view_out_invoice_tree').id
+
+        res = {
+            'name': 'Delivery',
+            'view_mode': 'form',
+            'res_model': 'account.move',
+            'view_id': form_view_id,
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
+
+        if self.invoice_count >= 1:
             res['view_mode'] = 'list,form'
             res['views'] = [(list_view_id, 'list'), (form_view_id, 'form')]
             res['domain'] = ([('prescription_id', '=', self.id)])

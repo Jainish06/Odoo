@@ -14,8 +14,8 @@ class SaleOrder(models.Model):
     state = fields.Selection(selection_add = [ ('to approve', 'To Approve'), ('sale',)])
     date_approve = fields.Datetime('Confirmation Date', readonly=True, index=True, copy=False)
 
-    sale_min_amount = fields.Float(string="Minimum Amount", readonly=False,
-                                   config_parameter='practical_jainishpathak.sale_min_amount')
+    # sale_min_amount = fields.Float(string="Minimum Amount", readonly=False,
+    #                                config_parameter='practical_jainishpathak.sale_min_amount')
 
     @api.depends('order_line.product_template_id')
     def compute_service_products(self):
@@ -36,43 +36,43 @@ class SaleOrder(models.Model):
         }
 
 
-    def _confirmation_error_message(self):
-        """ Return whether order can be confirmed or not if not then returm error message. """
-        self.ensure_one()
-        if self.state not in {'draft', 'sent', 'to approve'}:
-            return _("Some orders are not in a state requiring confirmation.")
-        if any(
-                not line.display_type
-                and not line.is_downpayment
-                and not line.product_id
-                for line in self.order_line
-        ):
-            return _("A line on these orders missing a product, you cannot confirm it.")
-
-        return False
-
-    def _approval_allowed(self):
-        """Returns whether the order qualifies to be approved by the current user"""
-        self.ensure_one()
-        return (self.amount_total < self.sale_min_amount,
-                    self.date_order or fields.Date.today()
-            or self.env.user.has_group('practical_jainishpathak.so_approver'))
-
-    def button_approve(self, force=False):
-        self.with_context(approved=True)
-        self = self.filtered(lambda order: order._approval_allowed())
-        self.write({'state': 'sale', 'date_approve': fields.Datetime.now()})
-        return {}
-
-    def action_confirm(self):
-        if self._context.get('approved'):
-            super(SaleOrder, self).action_confirm()
-        else:
-            for order in self:
-                if order._approval_allowed():
-                    order.button_approve()
-                else:
-                    order.write({'state': 'to approve'})
+    # def _confirmation_error_message(self):
+    #     """ Return whether order can be confirmed or not if not then returm error message. """
+    #     self.ensure_one()
+    #     if self.state not in {'draft', 'sent', 'to approve'}:
+    #         return _("Some orders are not in a state requiring confirmation.")
+    #     if any(
+    #             not line.display_type
+    #             and not line.is_downpayment
+    #             and not line.product_id
+    #             for line in self.order_line
+    #     ):
+    #         return _("A line on these orders missing a product, you cannot confirm it.")
+    #
+    #     return False
+    #
+    # def _approval_allowed(self):
+    #     """Returns whether the order qualifies to be approved by the current user"""
+    #     self.ensure_one()
+    #     return (self.amount_total < float(self.env['ir.config_parameter'].sudo().get_param('practical_jainishpathak.sale_min_amount')),
+    #                 self.date_order or fields.Date.today()
+    #         or self.env.user.has_group('practical_jainishpathak.so_approver'))
+    #
+    # def button_approve(self, force=False):
+    #     self.with_context(approved=True)
+    #     self = self.filtered(lambda order: order._approval_allowed())
+    #     self.write({'state': 'sale', 'date_approve': fields.Datetime.now()})
+    #     return {}
+    #
+    # def action_confirm(self):
+    #     if self._context.get('approved'):
+    #         super(SaleOrder, self).action_confirm()
+    #     else:
+    #         for order in self:
+    #             if order._approval_allowed():
+    #                 order.button_approve()
+    #             else:
+    #                 order.write({'state': 'to approve'})
 
 
     # def button_cancel(self):
