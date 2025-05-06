@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_open_label_layout']" position="after">
-                <button name="action_update_qty" type="object" string="Update Loc Qty"/>
+                <button name="action_update_qty1" type="object" string="Update Loc Qty"/>
             </xpath>
         </field>
     </record>

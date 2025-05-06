@@ -13,7 +13,7 @@
                     </group>
                 </sheet>
                 <footer>
-                    <button name="action_update_qty" type="object" string="Update" class="btn-primary"/>
+                    <button name="action_update_quant" type="object" string="Update" class="btn-primary"/>
                 </footer>
             </form>
         </field>

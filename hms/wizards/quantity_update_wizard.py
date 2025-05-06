@@ -15,7 +15,7 @@ class QuantityUpdateWizard(models.TransientModel):
     #     for rec in self:
     #         rec.inventory_quantity_auto_apply = rec.with_context(location_id = rec.qty_location_id.id).qty_update
 
-    def action_update_qty(self):
+    def action_update_quant(self):
 
         for rec in self:
             active_id = self.env.context.get('active_id')

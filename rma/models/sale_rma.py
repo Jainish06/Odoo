@@ -16,6 +16,7 @@ class SaleRma(models.Model):
     move_ids = fields.One2many('account.move', 'sale_rma_id', string='Invoice')
     invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', store=True)
     display_name = fields.Char(compute='_compute_display_name', string='Name')
+    partner_id = fields.Many2one('res.partner', string='Partner')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -37,6 +38,14 @@ class SaleRma(models.Model):
                     'unit_price' : lines.price_unit,
                 }))
             rec.rma_line_ids = list
+
+    @api.onchange('partner_id')
+    def get_so(self):
+        if self.partner_id:
+            domain = [('partner_id', '=', self.sale_order_id.partner_id)]
+        else:
+            domain = [('1', '=', '1')]
+        return {'domain': {'sale_order_id': domain}}
 
     def action_open_return_wizard(self):
         view_id = self.env.ref('rma.rma_line_wizard_wizard').id

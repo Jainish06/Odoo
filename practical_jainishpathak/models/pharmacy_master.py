@@ -15,5 +15,5 @@ class PharmacyMaster(models.Model):
         for rec in self:
             if rec.name:
                 duplicate_names = self.env['pharmacy.master'].search_count([('name', '=', rec.name)])
-                if duplicate_names:
+                if duplicate_names > 1:
                     raise UserError('Name already exists')

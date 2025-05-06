@@ -5,7 +5,7 @@ class ProductTemplate(models.Model):
 
 
 
-    def action_update_qty(self):
+    def action_update_qty1(self):
         view_id = self.env.ref('hms.quantity_update_wizard_wizard').id
         print("view_id", view_id)
         return {

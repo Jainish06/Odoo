@@ -13,9 +13,9 @@
 
     # always loaded
     'data': [
+        'data/pharmacy_default_values.xml',
         'security/security.xml',
         'security/ir.model.access.csv',
-        'data/pharmacy_default_values.xml',
         'data/email_tamplate.xml',
         'data/system_param.xml',
         'views/pharmacy_master.xml',

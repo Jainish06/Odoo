@@ -63,7 +63,7 @@ class SaleOrder(models.Model):
     #     self = self.filtered(lambda order: order._approval_allowed())
     #     self.write({'state': 'sale', 'date_approve': fields.Datetime.now()})
     #     return {}
-    #
+
     # def action_confirm(self):
     #     if self._context.get('approved'):
     #         super(SaleOrder, self).action_confirm()
