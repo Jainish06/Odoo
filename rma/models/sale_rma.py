@@ -17,6 +17,7 @@ class SaleRma(models.Model):
     invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice Count', store=True)
     display_name = fields.Char(compute='_compute_display_name', string='Name')
     partner_id = fields.Many2one('res.partner', string='Partner')
+    product_ids = fields.Many2many('product.product', string='Products', compute='_compute_rma_line_products', store=True)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -38,14 +39,6 @@ class SaleRma(models.Model):
                     'unit_price' : lines.price_unit,
                 }))
             rec.rma_line_ids = list
-
-    @api.onchange('partner_id')
-    def get_so(self):
-        if self.partner_id:
-            domain = [('partner_id', '=', self.sale_order_id.partner_id)]
-        else:
-            domain = [('1', '=', '1')]
-        return {'domain': {'sale_order_id': domain}}
 
     def action_open_return_wizard(self):
         view_id = self.env.ref('rma.rma_line_wizard_wizard').id
@@ -80,6 +73,14 @@ class SaleRma(models.Model):
     def _compute_invoice_count(self):
         for rec in self:
             rec.invoice_count = self.env['account.move'].search_count([('sale_rma_id', '=', rec.id)])
+
+    @api.depends('rma_line_ids')
+    def _compute_rma_line_products(self):
+        for rec in self:
+            for products in rec.rma_line_ids:
+                for product in products:
+                        rec.product_ids = [(4,product.product_id.id)]
+
 
     def action_open_delivery_form(self):
         form_view_id = self.env.ref('stock.view_picking_form').id

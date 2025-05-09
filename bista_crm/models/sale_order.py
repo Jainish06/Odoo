@@ -1,7 +1,6 @@
 from datetime import date
 
 from odoo import models, fields, api
-from odoo.api import ValuesType, Self
 from odoo.exceptions import ValidationError
 
 
@@ -10,8 +9,11 @@ class SaleOrder(models.Model):
 
     probability_stage_id = fields.Many2one('crm.probability.stage', 'Probability Stage', related='opportunity_id.probability_stage_id', readonly=False)
 
+
     def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
+        # for order in self.order_line:
+        #     context = self._context.copy()
+        #     context.update({'location_id' : order.location_id})
         if not self.probability_stage_id and self.opportunity_id:
             records = self.env['crm.probability.stage'].search([('percentage', '=', 100.00)])
             if records:
@@ -19,6 +21,7 @@ class SaleOrder(models.Model):
                     self.probability_stage_id = rec.id
             else:
                 raise ValidationError('No required stage for confirmation.')
+        res = super(SaleOrder, self).action_confirm()
         return res
 
     def set_process_qty(self):
@@ -73,10 +76,15 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     process_qty = fields.Integer(string='Process Qty')
+    location_id = fields.Many2one('stock.location', string='Location')
 
     def write(self, vals):
         res = super(SaleOrderLine, self).write(vals)
         self.move_ids.quantity = self.process_qty
         return res
 
-
+    def _prepare_procurement_values(self, group_id):
+        res = super(SaleOrderLine, self)._prepare_procurement_values(group_id)
+        if self.location_id:
+            res.update({'location_id' : self.location_id})
+        return res

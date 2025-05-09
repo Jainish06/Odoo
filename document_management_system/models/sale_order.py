@@ -73,7 +73,7 @@ class SaleOrder(models.Model):
                 else:
                     doc_record.write({'product_ids': [(4, product.id)]})
 
-        # self.document_ids = [(6, 0, matching_docs.ids)]
+        self.document_ids = [(6, 0, matching_docs.ids)]
 
         # template_id = self.env.ref('document_management_system.email_template_send_sale_person')
         # if self.user_id and self.user_id.login:
