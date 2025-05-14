@@ -73,43 +73,43 @@ class LoanDetails(models.Model):
                 emi_line_id = self.env['loan.emi.lines'].create({
                     'loan_id' : self.id,
                     'date_paid' : curr_pay_date,
-                    'paid_interest_amt' : curr_interest,
-                    'paid_principle_amt' : curr_principle_amt,
+                    'interest_amt' : curr_interest,
+                    'principle_amt' : curr_principle_amt,
                     'total_amt' : emi_amt,
                 }).id
                 emi_lines.append(emi_line_id)
                 emi_date += relativedelta(months=1)
             self.emi_line_ids = [(6,0,emi_lines)]
 
-    def _emi_auto_payment(self):
+    def _emi_auto_invoice_generation(self):
         today = date.today()
-        records = self.search([])
-        if records:
-            for rec in records:
-                emi_line = rec.emi_line_ids.filtered(lambda line : line.date_paid == today)
-                if emi_line:
-                    vals = rec.prepare_invoice_values()
-                    invoice_id = self.env['account.move'].create(vals)
-                    line_vals_list = rec.prepare_invoice_line_vals(invoice_id)
-                    line_ids = self.env['account.move.line'].create(line_vals_list)
-                    if invoice_id and rec.invoice_count>=1:
-                        rec.move_ids.action_post()
-                        emi_line.state = 'invoice_generated'
-                        if rec.partner_id.email:
-                            template_id = self.env.ref('bista_lms.emi_invoiced_email_template')
-                            template_id.send_mail(emi_line.id, force_send=True)
+        emi_lines = self.env['loan.emi.lines'].search([('date_paid', '=', today)])
+        if emi_lines:
+            for emi_line in emi_lines:
+                invoice_id = emi_line.loan_id.action_create_invoice()
+                emi_line.state = 'invoice_generated'
+                if invoice_id and emi_line.state == 'invoice_generated':
+                    emi_line.loan_id.move_ids.action_post()
+                    if emi_line.loan_id.partner_id.email:
+                        template_id = self.env.ref('bista_lms.emi_invoiced_email_template')
+                        template_id.send_mail(emi_line.id, force_send=True)
 
     def _emi_reminder(self):
         today = date.today()
         check_date = today + relativedelta(days=2)
-        records = self.search([])
-        if records:
-            for rec in records:
-                emi_line = rec.emi_line_ids.filtered(lambda line: line.date_paid == check_date)
-                if emi_line:
-                    if rec.partner_id.email:
-                        template_id = self.env.ref('bista_lms.emi_reminder_email_template')
-                        template_id.send_mail(emi_line.id, force_send=True)
+        emi_lines = self.env['loan.emi.lines'].search([('date_paid', '=', check_date)])
+        if emi_lines:
+            for emi_line in emi_lines:
+                if emi_line.loan_id.partner_id.email:
+                    template_id = self.env.ref('bista_lms.emi_reminder_email_template')
+                    template_id.send_mail(emi_line.id, force_send=True)
+
+    def action_create_invoice(self):
+        vals = self.prepare_invoice_values()
+        invoice_id = self.env['account.move'].create(vals)
+        line_vals_list = self.prepare_invoice_line_vals(invoice_id)
+        line_ids = self.env['account.move.line'].create(line_vals_list)
+        return invoice_id
 
     def prepare_invoice_values(self):
         values = {

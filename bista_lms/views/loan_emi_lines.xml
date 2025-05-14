@@ -5,8 +5,8 @@
         <field name="arch" type="xml">
             <list string="Loan EMI Lines">
                 <field name="date_paid" />
-                <field name="paid_interest_amt"/>
-                <field name="paid_principle_amt"/>
+                <field name="interest_amt"/>
+                <field name="principle_amt"/>
                 <field name="total_amt"/>
                 <field name="state"/>
             </list>
@@ -21,8 +21,8 @@
                 <sheet>
                     <group>
                         <field name="date_paid" />
-                        <field name="paid_interest_amt"/>
-                        <field name="paid_principle_amt"/>
+                        <field name="interest_amt"/>
+                        <field name="principle_amt"/>
                         <field name="total_amt"/>
                         <field name="state"/>
                     </group>

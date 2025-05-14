@@ -12,8 +12,8 @@ class LoanEmiLines(models.Model):
     loan_id = fields.Many2one('loan.details', string='Loan Name')
     date_paid = fields.Date(string='Date')
     total_amt = fields.Float(string='Total Amount')
-    paid_interest_amt = fields.Float(string='Interest')
-    paid_principle_amt = fields.Float(string='Principle')
+    interest_amt = fields.Float(string='Interest')
+    principle_amt = fields.Float(string='Principle')
     state = fields.Selection(state_selection, default='pending')
 
     # @api.depends('paid_interest_amt', 'paid_principle_amt')
