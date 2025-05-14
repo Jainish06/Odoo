@@ -21,6 +21,17 @@ admin-not delete
 user-read
 
 
+May
+
+hasattr()
+name_search()
+_run_pull()
+_action_confirm()
+_run()
+_assign_picking()
+web_search_read()
+odoo rpc for excel import
+
 
 
 from odoo import models, fields, api

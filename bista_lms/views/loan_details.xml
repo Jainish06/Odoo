@@ -1,0 +1,103 @@
+<odoo>
+  <record id="loan_details_list_view" model="ir.ui.view">
+      <field name="name">loan.details.list.view</field>
+      <field name="model">loan.details</field>
+      <field name="arch" type="xml">
+          <list string="Loan Details">
+              <field name="name"/>
+              <field name="partner_id"/>
+              <field name="total_principle_amt"/>
+              <field name="loan_period"/>
+              <field name="loan_start_date"/>
+              <field name="loan_end_date"/>
+              <field name="emi_pay_date"/>
+              <field name="emi_amount"/>
+              <field name="curr_interest_rate"/>
+          </list>
+      </field>
+  </record>
+
+  <record id="loan_details_form_view" model="ir.ui.view">
+      <field name="name">loan.details.form.view</field>
+      <field name="model">loan.details</field>
+      <field name="arch" type="xml">
+          <form string="Loan Details">
+              <header>
+                  <button name="action_generate_emi_lines" type="object" string="Get EMI Lines" class="btn-primary"/>
+              </header>
+              <sheet>
+                  <div class="oe_button_box" name="button_box">
+                      <button name="action_open_invoice_form" type="object" icon="fa-solid fa-pencil-square-o" string="Invoice" >
+                          <field name="invoice_count" string="Invoice" widget="statinfo"/>
+                      </button>
+                  </div>
+                  <group>
+                      <group>
+                          <div class="oe_title">
+                              <h1>
+                                  <field name="name" readonly="True"/>
+                              </h1>
+                          </div>
+                          <field name="partner_id"/>
+                      </group>
+                  </group>
+                  <group>
+                      <group string="Loan">
+                          <field name="total_principle_amt"/>
+                          <field name="loan_period"/>
+                          <field name="loan_start_date"/>
+                          <field name="loan_end_date" readonly="1" force_save="True"/>
+                      </group>
+                      <group string="EMI">
+                          <field name="emi_pay_date"/>
+                          <field name="emi_amount" readonly="1"/>
+                      </group>
+                       <group string="Interest">
+                           <field name="curr_interest_rate"/>
+                           <field name="total_interest_amt"/>
+                           <field name="paid_interest_amt"/>
+                           <field name="pending_interest_amt"/>
+                      </group>
+                      <group string="Principle">
+                          <field name="paid_principle_amt"/>
+                          <field name="pending_principle_amt"/>
+                      </group>
+                  </group>
+                  <notebook>
+                      <page name="EMI Lines">
+                          <field name="emi_line_ids">
+                              <list editable="bottom" decoration-danger="state == 'invoice_generated'" decoration-success="state == 'invoice_paid'">
+                                  <field name="date_paid" />
+                                  <field name="paid_interest_amt"/>
+                                  <field name="paid_principle_amt"/>
+                                  <field name="total_amt"/>
+                                  <field name="state" readonly="1"/>
+                              </list>
+                          </field>
+                      </page>
+                      <page name="Interest Rates">
+                          <field name="interest_rate_ids">
+                              <list editable="bottom">
+                                  <field name="interest_rate" decoration-success="is_active == True"/>
+                                  <field name="issued_date"/>
+                                  <field name="is_active" readonly="1"/>
+                                  <button name="action_activate_interest" type="object" string="Activate" class="btn-primary" confirm="Are you sure to activate this rate?"/>
+                              </list>
+                          </field>
+                      </page>
+                  </notebook>
+              </sheet>
+          </form>
+      </field>
+  </record>
+
+  <record id="loan_details_action" model="ir.actions.act_window">
+      <field name="name">Loan Details </field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">loan.details</field>
+      <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="loan_management_root" name="Loan Management"/>
+  <menuitem id="loan_details_menu_id" name="Loan Details" parent="loan_management_root" action="loan_details_action" sequence="1"/>
+</odoo>

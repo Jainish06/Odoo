@@ -1,0 +1,44 @@
+<odoo>
+    <record id="emi_reminder_email_template" model="mail.template">
+       <field name="name">EMI Reminder</field>
+       <field name="model_id" ref="model_loan_emi_lines"/>
+       <field name="subject">EMI reminder</field>
+       <field name="email_from">{{ object.env.user.login }}</field>
+       <field name="auto_delete" eval="False"/>
+       <field name="email_to">{{ object.loan_id.partner_id.email }}</field>
+       <field name="body_html" type="html">
+          <strong>Hello  <t t-out="object.loan_id.partner_id.name"/>.
+          </strong>
+          <p>Your EMI is due on <t t-out="object.date_paid"/>.
+          </p>
+          <p>If you have queries, please contact the bank.</p>
+
+          <p>Thank you!</p>
+          <p>Best regards,</p>
+          <p>
+             <t t-out="object.env.user.name"/>
+          </p>
+       </field>
+    </record>
+   <record id="emi_invoiced_email_template" model="mail.template">
+       <field name="name">EMI Invoiced</field>
+       <field name="model_id" ref="model_loan_emi_lines"/>
+       <field name="subject">EMI Invoice generated</field>
+       <field name="email_from">{{ object.env.user.login }}</field>
+       <field name="auto_delete" eval="False"/>
+       <field name="email_to">{{ object.loan_id.partner_id.email }}</field>
+       <field name="body_html" type="html">
+          <strong>Hello  <t t-out="object.loan_id.partner_id.name"/>.
+          </strong>
+          <p>Your EMI invoice generated. <t t-out="object.date_paid"/>.
+          </p>
+          <p>If you have queries, please contact the bank.</p>
+
+          <p>Thank you!</p>
+          <p>Best regards,</p>
+          <p>
+             <t t-out="object.env.user.name"/>
+          </p>
+       </field>
+    </record>
+</odoo>

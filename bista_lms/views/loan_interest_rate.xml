@@ -1,0 +1,29 @@
+<odoo>
+    <record id="loan_interest_list_view" model="ir.ui.view">
+        <field name="name">loan.interest.list.view</field>
+        <field name="model">loan.interest.rate</field>
+        <field name="arch" type="xml">
+            <list string="Loan Interest Rates">
+                <field name="interest_rate"/>
+                <field name="issued_date"/>
+                <field name="is_active" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="loan_interest_form_view" model="ir.ui.view">
+        <field name="name">loan.interest.form.view</field>
+        <field name="model">loan.interest.rate</field>
+        <field name="arch" type="xml">
+            <form string="Loan Interest Rates">
+                <sheet>
+                    <group>
+                        <field name="interest_rate" decoration-success="is_active == True"/>
+                        <field name="issued_date"/>
+                        <field name="is_active" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

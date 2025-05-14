@@ -1,0 +1,33 @@
+<odoo>
+    <record id="loan_emi_list_view" model="ir.ui.view">
+        <field name="name">loan.emi.list.view</field>
+        <field name="model">loan.emi.lines</field>
+        <field name="arch" type="xml">
+            <list string="Loan EMI Lines">
+                <field name="date_paid" />
+                <field name="paid_interest_amt"/>
+                <field name="paid_principle_amt"/>
+                <field name="total_amt"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="loan_emi_form_view" model="ir.ui.view">
+        <field name="name">loan.emi.form.view</field>
+        <field name="model">loan.emi.lines</field>
+        <field name="arch" type="xml">
+            <form string="Loan EMI Lines">
+                <sheet>
+                    <group>
+                        <field name="date_paid" />
+                        <field name="paid_interest_amt"/>
+                        <field name="paid_principle_amt"/>
+                        <field name="total_amt"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
