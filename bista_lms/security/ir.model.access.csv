@@ -1,4 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_loan_details,loan.details,model_loan_details,,1,1,1,1
+access_loan_details_admin,loan.details.admin,model_loan_details,bista_lms.bank_manager_group_id,1,1,1,1
+access_loan_details_user,loan.details.user,model_loan_details,bista_lms.bank_user_group_id,1,1,1,1
 access_loan_interest_rate,loan.interest.rate,model_loan_interest_rate,,1,1,1,1
 access_loan_emi_lines,loan.emi.lines,model_loan_emi_lines,,1,1,1,1
+access_loan_approver_team,loan.approver.team,model_loan_approver_team,,1,1,1,1
+access_loan_approvers,loan.approvers,model_loan_approvers,,1,1,1,1
+access_loan_approver_details,loan.approver.details,model_loan_approver_details,,1,1,1,1

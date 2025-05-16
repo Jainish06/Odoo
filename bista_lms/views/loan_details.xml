@@ -23,7 +23,11 @@
       <field name="arch" type="xml">
           <form string="Loan Details">
               <header>
+                  <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved"/>
                   <button name="action_generate_emi_lines" type="object" string="Get EMI Lines" class="btn-primary"/>
+                  <button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="state != 'draft'"/>
+                  <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'to_approve'"/>
+                  <button name="action_reject" type="object" string="Reject" class="btn-primary" invisible="state in ['draft','approved','rejected']"/>
               </header>
               <sheet>
                   <div class="oe_button_box" name="button_box">
@@ -51,9 +55,10 @@
                       <group string="EMI">
                           <field name="emi_pay_date"/>
                           <field name="emi_amount" readonly="1"/>
+                          <field name="next_emi_due_date" readonly="1" force_save="True"/>
                       </group>
                        <group string="Interest">
-                           <field name="curr_interest_rate"/>
+                           <field name="curr_interest_rate" readonly="1"/>
                            <field name="total_interest_amt"/>
                            <field name="paid_interest_amt"/>
                            <field name="pending_interest_amt"/>
@@ -61,6 +66,10 @@
                       <group string="Principle">
                           <field name="paid_principle_amt"/>
                           <field name="pending_principle_amt"/>
+                      </group>
+                      <group string="Loan Approver Team" invisible="state == 'draft'">
+                          <field name="loan_approver_team_id"/>
+                           <field name="next_approver_ids" widget="many2many_tags"/>
                       </group>
                   </group>
                   <notebook>
@@ -81,7 +90,20 @@
                                   <field name="interest_rate" decoration-success="is_active == True"/>
                                   <field name="issued_date"/>
                                   <field name="is_active" readonly="1"/>
-                                  <button name="action_activate_interest" type="object" string="Activate" class="btn-primary" confirm="Are you sure to activate this rate?"/>
+                                  <button name="action_activate_interest" type="object" string="Activate" class="btn-primary" confirm="Are you sure to activate this rate?" invisible= "is_active or issued_date &lt; datetime.date.today().strftime('%Y-%m-%d')"/>
+                              </list>
+                          </field>
+                      </page>
+                      <page name="Loan Approvers">
+                          <field name="loan_approver_detail_ids">
+                              <list editable="bottom">
+                                  <field name="level"/>
+                                  <field name="name"/>
+                                  <field name="user_ids" widget="many2many_tags"/>
+                                  <field name="state"/>
+                                  <field name="approved_by_id"/>
+                                  <field name="rejected_by_id"/>
+                                  <field name="time_stamp"/>
                               </list>
                           </field>
                       </page>

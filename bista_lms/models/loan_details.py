@@ -8,6 +8,10 @@ class LoanDetails(models.Model):
     _name = 'loan.details'
     _description = 'Loan Details and EMI'
 
+    state_selection = [('draft', 'Draft'),
+                       ('to_approve', 'To Approve'),
+                       ('approved', 'Approved'), ('rejected', 'Rejected')]
+
     name = fields.Char(string='Loan Num')
     partner_id = fields.Many2one('res.partner', string='Customer')
     loan_period = fields.Integer(string='Tenure')
@@ -26,12 +30,34 @@ class LoanDetails(models.Model):
     curr_interest_rate = fields.Float(string='Current Interest Rate')
     move_ids = fields.One2many('account.move', 'loan_id', 'Invoice')
     invoice_count = fields.Integer(compute='_compute_invoice_count', string='Invoice count', store=True)
-
+    next_emi_due_date = fields.Date(string='Next EMI due on')
+    state = fields.Selection(state_selection, string='State', default='draft')
+    loan_approver_team_id = fields.Many2one('loan.approver.team', string='Loan Approver Team')
+    next_approver_ids = fields.Many2many('res.users', string='Next Approvers')
+    loan_approver_detail_ids = fields.One2many('loan.approver.details', 'loan_details_id', string='Loan Approvers')
 
     @api.onchange('loan_period', 'loan_start_date')
     def onchange_end_date(self):
         if self.loan_period and self.loan_start_date:
             self.loan_end_date = self.loan_start_date + relativedelta(months=self.loan_period)
+            self.next_emi_due_date = self.loan_start_date
+
+    @api.onchange('loan_approver_team_id')
+    def onchange_next_approvers(self):
+        approver_lines = []
+        self.loan_approver_detail_ids = [(5,0,0)]
+        if self.loan_approver_team_id:
+            for line in self.loan_approver_team_id.loan_approvers_ids:
+                approver_lines.append((0, 0, ({
+                    'loan_details_id': self.id,
+                    'name': line.name,
+                    'level': line.level,
+                    'state': 'pending',
+                    'user_ids': line.user_ids,
+                })))
+            self.next_approver_ids = self.loan_approver_team_id.loan_approvers_ids[0].user_ids
+            self.loan_approver_detail_ids = approver_lines
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -51,6 +77,7 @@ class LoanDetails(models.Model):
         for rec in self:
             if rec.total_principle_amt and rec.loan_period and rec.curr_interest_rate:
                 r = rec.curr_interest_rate/1200
+
                 rec.emi_amount = (rec.total_principle_amt * r * ((1 + r) ** rec.loan_period))/(((1 + r) ** rec.loan_period) - 1)
 
     @api.depends('move_ids.loan_id')
@@ -58,28 +85,37 @@ class LoanDetails(models.Model):
         for rec in self:
             rec.invoice_count = len(self.move_ids)
 
+    def action_confirm(self):
+        self.state = 'to_approve'
+
+    def action_approve(self):
+        self.state = 'approved'
+
+    def action_reject(self):
+        self.state = 'rejected'
+
     def action_generate_emi_lines(self):
         emi_amt = self.emi_amount
         principle_amt = self.total_principle_amt
         emi_date = self.loan_start_date
         monthly_int_rate = self.curr_interest_rate/1200
         emi_lines = []
+        # self.emi_line_ids = [(5,0,0)]
         if monthly_int_rate:
             for month in range(self.loan_period):
                 curr_interest = principle_amt * monthly_int_rate
                 curr_principle_amt = emi_amt - curr_interest
                 curr_pay_date = emi_date
                 principle_amt -= curr_principle_amt
-                emi_line_id = self.env['loan.emi.lines'].create({
-                    'loan_id' : self.id,
-                    'date_paid' : curr_pay_date,
-                    'interest_amt' : curr_interest,
-                    'principle_amt' : curr_principle_amt,
-                    'total_amt' : emi_amt,
-                }).id
-                emi_lines.append(emi_line_id)
+                emi_lines.append((0, 0, ({
+                    'loan_id': self.id,
+                    'date_paid': curr_pay_date,
+                    'interest_amt': curr_interest,
+                    'principle_amt': curr_principle_amt,
+                    'total_amt': emi_amt,
+                })))
                 emi_date += relativedelta(months=1)
-            self.emi_line_ids = [(6,0,emi_lines)]
+            self.emi_line_ids = emi_lines
 
     def _emi_auto_invoice_generation(self):
         today = date.today()
@@ -90,6 +126,7 @@ class LoanDetails(models.Model):
                 emi_line.state = 'invoice_generated'
                 if invoice_id and emi_line.state == 'invoice_generated':
                     emi_line.loan_id.move_ids.action_post()
+                    emi_line.loan_id.next_emi_due_date = emi_line.date_paid + relativedelta(months=1)
                     if emi_line.loan_id.partner_id.email:
                         template_id = self.env.ref('bista_lms.emi_invoiced_email_template')
                         template_id.send_mail(emi_line.id, force_send=True)

@@ -1,0 +1,32 @@
+<odoo>
+     <record id="bank_user_group_id" model="res.groups">
+        <field name="name">User Access</field>
+    </record>
+
+    <record id="bank_manager_group_id" model="res.groups">
+        <field name="name">Bank Manager Access All</field>
+        <field name="implied_ids" eval="[(4, ref('bista_lms.bank_user_group_id'))]"/>
+    </record>
+
+    <record id="manager_access_all_record" model="ir.rule">
+        <field name="name">Manager Access all records</field>
+        <field ref="model_loan_details" name="model_id"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('bista_lms.bank_manager_group_id'))]"/>
+    </record>
+
+    <record id="user_access_limit_record" model="ir.rule">
+        <field name="name">User Access limit records</field>
+        <field ref="model_loan_details" name="model_id"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('bista_lms.bank_user_group_id'))]"/>
+    </record>
+</odoo>
