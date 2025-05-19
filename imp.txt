@@ -31,7 +31,8 @@ _run()
 _assign_picking()
 web_search_read()
 odoo rpc for excel import
-
+copy=false
+proper validations on both server and in frontend even if any field or button is hidden
 
 
 from odoo import models, fields, api

@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mrp_production,mrp.production,model_mrp_production,,1,1,1,1
 access_mrp_report_wizard,mrp.report.wizard,model_mrp_report_wizard,,1,1,1,1
+access_mrp_replace_wizard,mrp.replace.wizard,model_mrp_replace_wizard,,1,1,1,1
+access_mrp_replace_products,mrp.replace.products,model_mrp_replace_products,,1,1,1,1
+access_mrp_update_serial,mrp.update.serial,model_mrp_update_serial,,1,1,1,1

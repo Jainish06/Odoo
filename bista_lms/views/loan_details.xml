@@ -26,8 +26,8 @@
                   <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved"/>
                   <button name="action_generate_emi_lines" type="object" string="Get EMI Lines" class="btn-primary"/>
                   <button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="state != 'draft'"/>
-                  <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'to_approve'"/>
-                  <button name="action_reject" type="object" string="Reject" class="btn-primary" invisible="state in ['draft','approved','rejected']"/>
+                  <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'to_approve' or curr_user_id not in next_approver_ids"/>
+                  <button name="action_reject" type="object" string="Reject" class="btn-primary" invisible="state in ['draft','approved','rejected'] or curr_user_id not in next_approver_ids"/>
               </header>
               <sheet>
                   <div class="oe_button_box" name="button_box">
@@ -96,7 +96,7 @@
                       </page>
                       <page name="Loan Approvers">
                           <field name="loan_approver_detail_ids">
-                              <list editable="bottom">
+                              <list editable="bottom" decoration-warning="state == 'to_approve'" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
                                   <field name="level"/>
                                   <field name="name"/>
                                   <field name="user_ids" widget="many2many_tags"/>

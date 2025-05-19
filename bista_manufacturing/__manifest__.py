@@ -12,8 +12,9 @@
 
     'data': [
         'security/ir.model.access.csv',
-        # 'views/mrp_production.xml',
+        'views/mrp_production.xml',
         'wizards/mrp_report_wizard.xml',
+        'wizards/mrp_replace_wizard.xml',
     ],
     'application' : True,
 }

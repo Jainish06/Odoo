@@ -14,6 +14,7 @@ class LoanEmiLines(models.Model):
     total_amt = fields.Float(string='Total Amount')
     interest_amt = fields.Float(string='Interest')
     principle_amt = fields.Float(string='Principle')
+    total_balance = fields.Float(string='Balance')
     state = fields.Selection(state_selection, default='pending')
 
     # @api.depends('paid_interest_amt', 'paid_principle_amt')

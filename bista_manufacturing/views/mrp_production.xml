@@ -1,27 +1,12 @@
 <odoo>
-<!--  <record id="manufacturing_inherit_id" model="ir.ui.view">-->
-<!--      <field name="name">manufacturing.inherit.id</field>-->
-<!--      <field name="model">mrp.production</field>-->
-<!--      <field name="inherit_id" ref="mrp.mrp_production_form_view"/>-->
-<!--      <field name="arch" type="xml">-->
-<!--      </field>-->
-<!--  </record>-->
-
-<!--  <record id="action_mrp_report_wizard" model="ir.actions.act_window">-->
-<!--      <field name="name">MRP Report</field>-->
-<!--      <field name="type">ir.actions.act_window</field>-->
-<!--      <field name="res_model">mrp.report.wizard</field>-->
-<!--      <field name="view_mode">form</field>-->
-<!--      <field name="view_id" ref="bista_manufacturing.mrp_report_wizard_wizard"/>-->
-<!--      <field name="target">new</field>-->
-<!--  </record>-->
-<!--    <record id="action_mrp_report_wizard" model="ir.actions.act_window">-->
-<!--        <field name="name">manufacturing_report_action</field>-->
-<!--        <field name="type">ir.actions.act_window</field>-->
-<!--        <field name="res_model">mrp.report.wizard</field>-->
-<!--        <field name="view_mode">form</field>-->
-<!--        <field name="view_id" ref="bista_manufacturing.mrp_report_wizard_wizard"/>-->
-<!--        <field name="target">new</field>-->
-<!--    </record>-->
-<!--  <menuitem id="mrp_report_menu_id" name="Manufacturing Report" parent="mrp.menu_mrp_root" action="action_mrp_report_wizard"/>-->
+    <record id="mrp_list_view_inherit" model="ir.ui.view">
+        <field name="name">mrp.list.view.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='button_plan']" position="before">
+                <button name="action_open_replace_wizard" type="object" string="Replace"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
